@@ -1,0 +1,9 @@
+/AJLibrary/bin/
+/AJLibrary/obj/
+/AppMenu/bin/
+/AppMenu/obj/
+Helper/
+/ScriptManagement/bin/
+/ScriptManagement/obj/
+/packages/
+.vs/

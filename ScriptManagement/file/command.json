@@ -1,0 +1,142 @@
+[
+  {
+    "name": "PHP1",
+    "command": "php ",
+    "type": 0,
+    "children": [
+      {
+        "name": "php脚本1",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\test_1.php",
+        "type": 0
+      },
+      {
+        "name": "php脚本2",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\test_2.php",
+        "type": 0
+      },
+      {
+        "name": "php脚本3",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\test_3.php",
+        "type": 0
+      },
+      {
+        "name": "php脚本4",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\test_4.php,D:\\CSharp\\Helper\\ScriptManagement\\file\\test_5.php",
+        "type": 0
+      }
+    ]
+  },
+  {
+    "name": "语言包解析",
+    "command": "php D:\/dushi_backend\/test\/administrator\/phpexcel\/lang_excell_to_define.php ",
+    "type": 0,
+    "children": [
+      {
+        "name": "官方语言包",
+        "command": "dszh",
+        "type": 0
+      },
+      {
+        "name": "繁体语言包",
+        "command": "dstw",
+        "type": 0
+      },
+      {
+        "name": "韩国语言包",
+        "command": "dshg",
+        "type": 0
+      },
+      {
+        "name": "日本语言包",
+        "command": "dsjp",
+        "type": 0
+      }
+    ]
+  },
+  {
+    "name": "GIT",
+    "command": " ",
+    "type": 2,
+    "children": [
+      {
+        "name": "本地更新",
+        "command": "cd d:\/dushi\/king\/auto\/config&&git pull&&cd d:\/dushi_backend\/test\/&&git pull&&cd d:\/dushi_backend\/ready\/&&git pull&&cd d:\/dushi\/king\/auto\/protocol\/forBDZC&&git pull",
+        "type": 2
+      },
+      {
+        "name": "全部提交",
+        "command": "cd d:\/dushi_backend\/ready&&git add .&&git commit -m \"解析配置提交\"&&git push origin main",
+        "type": 2
+      },
+      {
+        "name": "配置提交",
+        "command": "cd d:\/dushi_backend\/ready\/config&&git add .&&cd d:\/dushi_backend\/ready\/lang&&git add .&&git commit -m \"解析配置提交\"&&git push origin main",
+        "type": 2
+      },
+      {
+        "name": "协议提交",
+        "command": "cd d:\/dushi\/king\/auto\/protocol\/forBDZC&&git pull&&php createCSData.php&&git add .&&git commit -m \"协议提交\"&&git push origin main&&cd d:\/dushi_backend\/test\/administrator\/extend\/&&php jsonToPHP.php",
+        "type": 2
+      }
+    ]
+  },
+  {
+    "name": "Devop",
+    "command": "php D:\/dushi_backend\/test\/administrator\/phpexcel\/devops.php eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0NDYxIiwidXNlcklkIjo0NDYxLCJyZWFsTmFtZSI6Iui1luWig-aYjiIsIm5hbWUiOiJsYWlqbSIsImNvbXBhbnlJZCI6MTgsImRlcHRJZCI6Nzk2LCJleHAiOjE3MjkxNTQxNDh9.3mc-KKNt8rJSH3L86FxhWPZHQ6iqnY1t7F4c_NL1L0CLl7W2g-vr_9RNu0QEKwBI-W1YYY-7zptGCUAytqvWKg",
+    "type": 3,
+    "children": [
+      {
+        "name": "官方预上线",
+        "command": "1",
+        "type": 3
+      },
+      {
+        "name": "繁体预上线",
+        "command": "2",
+        "type": 3
+      },
+      {
+        "name": "韩国预上线",
+        "command": "3",
+        "type": 3
+      },
+      {
+        "name": "日本预上线",
+        "command": "4",
+        "type": 3
+      },
+      {
+        "name": "官方镜像",
+        "command": "5",
+        "type": 3
+      },
+      {
+        "name": "繁体镜像",
+        "command": "6",
+        "type": 3
+      },
+      {
+        "name": "韩国镜像",
+        "command": "7",
+        "type": 3
+      },
+      {
+        "name": "日本镜像",
+        "command": "8",
+        "type": 3
+      }
+    ]
+  },
+  {
+    "name": "其他脚本",
+    "command": " ",
+    "type": 0,
+    "children": [
+      {
+        "name": "其他脚本1",
+        "command": "",
+        "type": 0
+      }
+    ]
+  }
+]
