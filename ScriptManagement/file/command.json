@@ -70,7 +70,7 @@
       },
       {
         "name": "配置提交",
-        "command": "cd D:\\CSharp\\Helper\\ScriptManagement\\file&&git add .&&git commit -m \"解析配置提交\"&&git push origin main",
+        "command": "cd D:\\CSharp\\Helper\\ScriptManagement\\file&&git add .&&cd D:\\CSharp\\Helper\\ScriptManagement\\Resources&&git add .&&git commit -m \"解析配置提交\"&&git push origin main",
         "type": 2
       }
     ]
