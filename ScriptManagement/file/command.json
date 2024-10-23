@@ -2,7 +2,6 @@
   {
     "name": "PHP1",
     "command": "php ",
-    "type": 0,
     "children": [
       {
         "name": "php脚本1",
@@ -29,7 +28,6 @@
   {
     "name": "PHP2",
     "command": "php D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_6.php",
-    "type": 1,
     "children": [
       {
         "name": "php脚本6参数1",
@@ -56,7 +54,6 @@
   {
     "name": "GIT",
     "command": " ",
-    "type": 2,
     "children": [
       {
         "name": "本地更新",
@@ -78,7 +75,6 @@
   {
     "name": "PHP3",
     "command": "php D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_6.php",
-    "type": 3,
     "children": [
       {
         "name": "php脚本6参数1",
