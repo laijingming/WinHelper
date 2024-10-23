@@ -84,7 +84,7 @@
   }
 ]
 ```
-
+[command.json](ScriptManagement%2Ffile%2Fcommand.json)
 **例子：**  
 当执行顺序为 `类别1-命令名1`、`类别1-命令名2`、`类别3-阻塞命令1`、`类别2-参数1`，执行逻辑如下：
 - `类别3-阻塞命令1` 会等待 `类别1` 的命令完成后再执行；
@@ -106,6 +106,6 @@
 - 历史记录会按置顶、执行次数和时间进行排序。
 - 历史记录缓存文件地址：[file\log.json](file\log.json)
 
-### 下载地址：[https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/Release.rar](https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/Release.rar)
+### 下载地址：[https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/file/Release.rar](https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/file/Release.rar)
 
 ---
