@@ -8,7 +8,11 @@
 
 ### 命令配置
 
-配置文件位置：[.\ScriptManagement\file\command.json](.\ScriptManagement\file\command.json)
+配置文件位置：
+
+复制位置：[.\ScriptManagement\file\command.json](.\ScriptManagement\file\command.json)
+
+执行位置：[file\command.json](file\command.json)
 
 | 属性       | 说明                                       |
 |------------|--------------------------------------------|
@@ -100,5 +104,8 @@
 #### 2. 历史记录
 - 每次执行命令都会自动记录，包含执行的任务、时间和次数，便于下次一键重复执行。
 - 历史记录会按置顶、执行次数和时间进行排序。
+- 历史记录缓存文件地址：[file\log.json](file\log.json)
+
+### 下载地址：[https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/Release.rar](https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/Release.rar)
 
 ---
