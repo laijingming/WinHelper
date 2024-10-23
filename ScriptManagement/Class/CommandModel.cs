@@ -16,7 +16,7 @@ namespace ScriptManagement.Class
         public string parrent_command { get; set; }
         public string command { get; set; }
 
-        public string type { get; set; }
+        public string type { get; set; } = "";
         public List<CommandModel> children { get; set; }
     }
 

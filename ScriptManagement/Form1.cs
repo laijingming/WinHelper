@@ -194,7 +194,7 @@ namespace ScriptManagement
 
         private void TreeList1_NodeCellStyle(object sender, DevExpress.XtraTreeList.GetCustomNodeCellStyleEventArgs e)
         {
-            if (e.Column.FieldName == "type")
+            if (!e.Node.HasChildren&&e.Column.FieldName == "type")
             {
                 e.Node.GetValue(e.Column).ToString();
                 switch (int.Parse(e.Node.GetValue(e.Column).ToString()))
@@ -233,14 +233,14 @@ namespace ScriptManagement
                     return;
                 }
                 int val = int.Parse(e.Value.ToString());
-                if (!e.Node.HasChildren && int.Parse(e.Node.ParentNode.GetValue("type").ToString()) == 1)
-                {
-                    val = 1;
-                }
-                if (!e.Node.HasChildren && int.Parse(e.Node.ParentNode.GetValue("type").ToString()) == 3)
-                {
-                    val = 3;
-                }
+                //if (!e.Node.HasChildren && int.Parse(e.Node.ParentNode.GetValue("type").ToString()) == 1)
+                //{
+                //    val = 1;
+                //}
+                //if (!e.Node.HasChildren && int.Parse(e.Node.ParentNode.GetValue("type").ToString()) == 3)
+                //{
+                //    val = 3;
+                //}
                 switch (val)
                 {
                     case 0:
