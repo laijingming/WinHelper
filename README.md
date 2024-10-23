@@ -5,7 +5,7 @@
 在日常工作中，经常需要执行大量的命令行脚本，重复输入操作非常繁琐。为了解决这个问题，开发了一个多任务可视化管理工具，可以异步或按顺序执行命令行任务。
 
 ![readme_1.png](https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/Resources/readme_1.png)
-
+### 下载地址：[https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/file/Release.rar](https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/file/Release.rar)
 ### 命令配置
 
 配置文件位置：
@@ -106,6 +106,5 @@
 - 历史记录会按置顶、执行次数和时间进行排序。
 - 历史记录缓存文件地址：[file\log.json](file\log.json)
 
-### 下载地址：[https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/file/Release.rar](https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/file/Release.rar)
 
 ---
