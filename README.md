@@ -7,12 +7,7 @@
 ![readme_1.png](https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/Resources/readme_1.png)
 ### 下载地址：[https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/file/Release.rar](https://raw.githubusercontent.com/laijingming/WinHelper/refs/heads/main/ScriptManagement/file/Release.rar)
 ### 命令配置
-
-配置文件位置：
-
-复制位置：[.\ScriptManagement\file\command.json](.\ScriptManagement\file\command.json)
-
-执行位置：[file\command.json](file\command.json)
+配置文件位置：[file\command.json](file\command.json)
 
 | 属性       | 说明                                       |
 |------------|--------------------------------------------|
@@ -84,7 +79,6 @@
   }
 ]
 ```
-[command.json](ScriptManagement%2Ffile%2Fcommand.json)
 **例子：**  
 当执行顺序为 `类别1-命令名1`、`类别1-命令名2`、`类别3-阻塞命令1`、`类别2-参数1`，执行逻辑如下：
 - `类别3-阻塞命令1` 会等待 `类别1` 的命令完成后再执行；
