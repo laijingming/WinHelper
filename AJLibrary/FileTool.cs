@@ -10,6 +10,7 @@ namespace AJLibrary
         public const string ExcelFileFilter = "Excel 文件 (*.xls;*.xlsx)|*.xls;*.xlsx|所有文件 (*.*)|*.*";
         public const string JsonFileFilter = "JSON 文件 (*.json)|*.json|所有文件 (*.*)|*.*";
         public const string DbFileFilter = "db 文件 (*.db)|*.db|所有文件 (*.*)|*.*";
+        public const string ImageFileFilter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp|All Files|*.*";
         public static string OpenFile(string filter)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())

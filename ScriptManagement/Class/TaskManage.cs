@@ -23,6 +23,10 @@ namespace ScriptManagement
         /// <param name="is_check">是否执行选中，默认否</param>
         public void AddTaskListByNode(TreeListNode node, bool is_check = false)
         {
+            if (node == null)
+            {
+                return;
+            }
             if (node.HasChildren)
             {
                 foreach (TreeListNode item in node.Nodes)
