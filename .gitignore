@@ -3,5 +3,7 @@
 Helper/
 /ScriptManagement/bin/
 /ScriptManagement/obj/
+/ImageToIco/bin/
+/ImageToIco/obj/
 /packages/
 .vs/
