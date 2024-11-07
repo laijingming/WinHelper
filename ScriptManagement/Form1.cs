@@ -14,8 +14,7 @@ using static AJLibrary.Cmd;
 using System.IO;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraTreeList.Menu;
-using ScriptManagement.Class;
-using DevExpress.Utils.Extensions;
+using ScriptManagement.Class;using DevExpress.Utils.Extensions;
 using System.Linq;
 using System.Data;
 

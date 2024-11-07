@@ -1,5 +1,6 @@
 ﻿using AJLibrary;
 using DevExpress.XtraBars.Docking;
+using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
 using DevExpress.XtraTreeList.Nodes;
 using DevExpress.XtraWaitForm;
@@ -15,7 +16,7 @@ namespace ScriptManagement
     {
 
         public List<CommandModel> list = new List<CommandModel>();//任务列表
-
+        public static bool is_run = false;
         /// <summary>
         /// 添加节点命令
         /// </summary>
@@ -25,6 +26,11 @@ namespace ScriptManagement
         {
             if (node == null)
             {
+                return;
+            }
+            if (is_run)
+            {
+                XtraMessageBox.Show("有命令正在执行，请等候...");
                 return;
             }
             if (node.HasChildren)
@@ -82,6 +88,8 @@ namespace ScriptManagement
             {   
                 return;
             }
+            is_run = true;//标记命令执行
+
             RunLog();
             string commandParams = "";
             string show_name = "";
@@ -115,6 +123,10 @@ namespace ScriptManagement
                             show_name = item.name + "\n" + show_name;
                             continue;
                         }
+                        else
+                        {
+                            show_name = item.name;
+                        }
                         if (_type== Constants.COMMAND_SYNC_PARAMS_TYPE)
                         {   
                             LoadForm(true, show_name);
@@ -142,10 +154,18 @@ namespace ScriptManagement
             }
 
             ClearItems();
+            is_run = false;
         }
 
         public void RunLog() 
         {
+            
+            if (list.Count <= 1)
+            {   
+                //不记录单条命令
+                return;
+            }
+
             string key_name="";
             foreach (CommandModel item in list)
             {

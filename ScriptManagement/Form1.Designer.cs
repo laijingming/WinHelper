@@ -102,11 +102,11 @@
             this.dockPanel1.Controls.Add(this.dockPanel1_Container);
             this.dockPanel1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Bottom;
             this.dockPanel1.ID = new System.Guid("eea2f295-e79d-4c4c-8e29-b5c8f6d83a00");
-            this.dockPanel1.Location = new System.Drawing.Point(0, 393);
+            this.dockPanel1.Location = new System.Drawing.Point(0, 438);
             this.dockPanel1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel1.Name = "dockPanel1";
             this.dockPanel1.OriginalSize = new System.Drawing.Size(592, 270);
-            this.dockPanel1.Size = new System.Drawing.Size(1063, 315);
+            this.dockPanel1.Size = new System.Drawing.Size(1063, 270);
             this.dockPanel1.Text = "输出";
             // 
             // dockPanel1_Container
@@ -115,7 +115,7 @@
             this.dockPanel1_Container.Location = new System.Drawing.Point(0, 44);
             this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(1063, 271);
+            this.dockPanel1_Container.Size = new System.Drawing.Size(1063, 226);
             this.dockPanel1_Container.TabIndex = 0;
             // 
             // memoEdit1
@@ -125,7 +125,7 @@
             this.memoEdit1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.memoEdit1.Name = "memoEdit1";
             this.memoEdit1.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.memoEdit1.Size = new System.Drawing.Size(1063, 271);
+            this.memoEdit1.Size = new System.Drawing.Size(1063, 226);
             this.memoEdit1.TabIndex = 1;
             // 
             // dockPanel4
@@ -138,7 +138,7 @@
             this.dockPanel4.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel4.Name = "dockPanel4";
             this.dockPanel4.OriginalSize = new System.Drawing.Size(400, 200);
-            this.dockPanel4.Size = new System.Drawing.Size(467, 393);
+            this.dockPanel4.Size = new System.Drawing.Size(400, 438);
             this.dockPanel4.Text = "命令";
             // 
             // dockPanel4_Container
@@ -147,7 +147,7 @@
             this.dockPanel4_Container.Location = new System.Drawing.Point(0, 43);
             this.dockPanel4_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel4_Container.Name = "dockPanel4_Container";
-            this.dockPanel4_Container.Size = new System.Drawing.Size(466, 350);
+            this.dockPanel4_Container.Size = new System.Drawing.Size(399, 395);
             this.dockPanel4_Container.TabIndex = 0;
             // 
             // treeList1
@@ -171,7 +171,7 @@
             this.treeList1.OptionsView.ShowVertLines = false;
             this.treeList1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemButtonEdit1});
-            this.treeList1.Size = new System.Drawing.Size(466, 350);
+            this.treeList1.Size = new System.Drawing.Size(399, 395);
             this.treeList1.TabIndex = 1;
             this.treeList1.TreeLevelWidth = 17;
             this.treeList1.VertScrollVisibility = DevExpress.XtraTreeList.ScrollVisibility.Never;
@@ -239,13 +239,13 @@
             this.dockPanel2.Controls.Add(this.dockPanel2_Container);
             this.dockPanel2.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
             this.dockPanel2.ID = new System.Guid("31d83481-3c80-41bd-a84f-e0f4348db522");
-            this.dockPanel2.Location = new System.Drawing.Point(467, 0);
+            this.dockPanel2.Location = new System.Drawing.Point(400, 0);
             this.dockPanel2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel2.Name = "dockPanel2";
             this.dockPanel2.OriginalSize = new System.Drawing.Size(511, 200);
             this.dockPanel2.SavedDock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
             this.dockPanel2.SavedIndex = 1;
-            this.dockPanel2.Size = new System.Drawing.Size(596, 393);
+            this.dockPanel2.Size = new System.Drawing.Size(663, 438);
             this.dockPanel2.Text = "常用组合";
             // 
             // dockPanel2_Container
@@ -254,7 +254,7 @@
             this.dockPanel2_Container.Location = new System.Drawing.Point(0, 43);
             this.dockPanel2_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel2_Container.Name = "dockPanel2_Container";
-            this.dockPanel2_Container.Size = new System.Drawing.Size(596, 350);
+            this.dockPanel2_Container.Size = new System.Drawing.Size(663, 395);
             this.dockPanel2_Container.TabIndex = 0;
             // 
             // treeList2
@@ -274,9 +274,10 @@
             this.treeList2.OptionsMenu.EnableColumnMenu = false;
             this.treeList2.OptionsPrint.PrintFilledTreeIndent = true;
             this.treeList2.OptionsPrint.PrintReportFooter = false;
+            this.treeList2.OptionsView.ShowVertLines = false;
             this.treeList2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemButtonEdit2});
-            this.treeList2.Size = new System.Drawing.Size(596, 350);
+            this.treeList2.Size = new System.Drawing.Size(663, 395);
             this.treeList2.TabIndex = 2;
             this.treeList2.TreeLevelWidth = 17;
             this.treeList2.VertScrollVisibility = DevExpress.XtraTreeList.ScrollVisibility.Never;
@@ -289,7 +290,7 @@
             this.treeListColumn8.MaxWidth = 100;
             this.treeListColumn8.Name = "treeListColumn8";
             this.treeListColumn8.Visible = true;
-            this.treeListColumn8.VisibleIndex = 1;
+            this.treeListColumn8.VisibleIndex = 0;
             // 
             // repositoryItemButtonEdit2
             // 
@@ -307,7 +308,7 @@
             this.treeListColumn5.Name = "treeListColumn5";
             this.treeListColumn5.OptionsColumn.AllowEdit = false;
             this.treeListColumn5.Visible = true;
-            this.treeListColumn5.VisibleIndex = 0;
+            this.treeListColumn5.VisibleIndex = 1;
             this.treeListColumn5.Width = 87;
             // 
             // treeListColumn6
