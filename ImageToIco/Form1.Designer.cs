@@ -67,7 +67,7 @@
             // 
             // pictureEdit1
             // 
-            this.pictureEdit1.Location = new System.Drawing.Point(299, 47);
+            this.pictureEdit1.Location = new System.Drawing.Point(262, 47);
             this.pictureEdit1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureEdit1.Name = "pictureEdit1";
             this.pictureEdit1.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
@@ -78,18 +78,18 @@
             // 
             // pictureEdit2
             // 
-            this.pictureEdit2.Location = new System.Drawing.Point(299, 205);
+            this.pictureEdit2.Location = new System.Drawing.Point(262, 205);
             this.pictureEdit2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureEdit2.Name = "pictureEdit2";
             this.pictureEdit2.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             this.pictureEdit2.Properties.ShowMenu = false;
-            this.pictureEdit2.Size = new System.Drawing.Size(150, 100);
+            this.pictureEdit2.Size = new System.Drawing.Size(150, 91);
             this.pictureEdit2.TabIndex = 1;
             // 
             // checkedListBoxControl1
             // 
             this.checkedListBoxControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.checkedListBoxControl1.ItemHeight = 25;
+            this.checkedListBoxControl1.ItemHeight = 20;
             this.checkedListBoxControl1.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("16", "16x16"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("24", "24x24"),
@@ -102,7 +102,7 @@
             this.checkedListBoxControl1.Location = new System.Drawing.Point(86, 47);
             this.checkedListBoxControl1.Name = "checkedListBoxControl1";
             this.checkedListBoxControl1.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.checkedListBoxControl1.Size = new System.Drawing.Size(206, 201);
+            this.checkedListBoxControl1.Size = new System.Drawing.Size(169, 163);
             this.checkedListBoxControl1.TabIndex = 4;
             templatedItemElement1.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Left;
             templatedItemElement1.FieldName = "DisplayMember";
@@ -127,24 +127,24 @@
             // 
             // textEdit1
             // 
-            this.textEdit1.Location = new System.Drawing.Point(86, 254);
+            this.textEdit1.Location = new System.Drawing.Point(86, 216);
             this.textEdit1.Name = "textEdit1";
             this.textEdit1.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.RegExpMaskManager));
             this.textEdit1.Properties.MaskSettings.Set("mask", "\\d{0,3}");
-            this.textEdit1.Size = new System.Drawing.Size(123, 20);
+            this.textEdit1.Size = new System.Drawing.Size(88, 20);
             this.textEdit1.TabIndex = 5;
             this.textEdit1.EditValueChanged += new System.EventHandler(this.textEdit1_EditValueChanged);
             // 
             // labelControl1
             // 
-            this.labelControl1.Location = new System.Drawing.Point(215, 257);
+            this.labelControl1.Location = new System.Drawing.Point(180, 219);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(0, 14);
             this.labelControl1.TabIndex = 6;
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(16, 257);
+            this.labelControl2.Location = new System.Drawing.Point(16, 219);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(60, 14);
             this.labelControl2.TabIndex = 6;
@@ -168,9 +168,9 @@
             // 
             // simpleButton2
             // 
-            this.simpleButton2.Location = new System.Drawing.Point(86, 282);
+            this.simpleButton2.Location = new System.Drawing.Point(86, 244);
             this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(123, 23);
+            this.simpleButton2.Size = new System.Drawing.Size(169, 23);
             this.simpleButton2.TabIndex = 7;
             this.simpleButton2.Text = "开始转换";
             this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
@@ -181,7 +181,7 @@
             this.textEdit2.Name = "textEdit2";
             this.textEdit2.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.textEdit2.Properties.ReadOnly = true;
-            this.textEdit2.Size = new System.Drawing.Size(268, 18);
+            this.textEdit2.Size = new System.Drawing.Size(231, 18);
             this.textEdit2.TabIndex = 8;
             // 
             // textEdit3
@@ -190,7 +190,7 @@
             this.textEdit3.Name = "textEdit3";
             this.textEdit3.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.textEdit3.Properties.ReadOnly = true;
-            this.textEdit3.Size = new System.Drawing.Size(363, 18);
+            this.textEdit3.Size = new System.Drawing.Size(326, 18);
             this.textEdit3.TabIndex = 8;
             // 
             // labelControl4
@@ -203,16 +203,16 @@
             // 
             // simpleButton3
             // 
-            this.simpleButton3.Location = new System.Drawing.Point(215, 282);
+            this.simpleButton3.Location = new System.Drawing.Point(86, 273);
             this.simpleButton3.Name = "simpleButton3";
-            this.simpleButton3.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton3.Size = new System.Drawing.Size(169, 23);
             this.simpleButton3.TabIndex = 9;
             this.simpleButton3.Text = "打开文件夹";
             this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
             // 
             // labelControl6
             // 
-            this.labelControl6.Location = new System.Drawing.Point(52, 286);
+            this.labelControl6.Location = new System.Drawing.Point(52, 248);
             this.labelControl6.Name = "labelControl6";
             this.labelControl6.Size = new System.Drawing.Size(24, 14);
             this.labelControl6.TabIndex = 6;
@@ -222,7 +222,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(469, 346);
+            this.ClientSize = new System.Drawing.Size(438, 340);
             this.Controls.Add(this.simpleButton3);
             this.Controls.Add(this.textEdit3);
             this.Controls.Add(this.textEdit2);
@@ -239,6 +239,7 @@
             this.Controls.Add(this.pictureEdit2);
             this.Controls.Add(this.pictureEdit1);
             this.Controls.Add(this.simpleButton1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
