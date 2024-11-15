@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AJLibrary", "AJLibrary\AJLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageToIco", "ImageToIco\ImageToIco.csproj", "{A4E92ABC-18C2-4346-AC0C-E937DDD567C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{0000A86E-18D4-438D-B2A8-2611023C07E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A4E92ABC-18C2-4346-AC0C-E937DDD567C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4E92ABC-18C2-4346-AC0C-E937DDD567C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4E92ABC-18C2-4346-AC0C-E937DDD567C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0000A86E-18D4-438D-B2A8-2611023C07E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0000A86E-18D4-438D-B2A8-2611023C07E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0000A86E-18D4-438D-B2A8-2611023C07E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0000A86E-18D4-438D-B2A8-2611023C07E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
