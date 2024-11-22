@@ -8,7 +8,8 @@ namespace AJLibrary
     public class IconConverter
     {
 
-        public static void SaveIconWithMultipleSizes(string sourceImagePath, string outputIconPath, int[] sizes)
+
+        public static void SaveIconWithMultipleSizes(Image sourceImage, string outputIconPath, int[] sizes)
         {
             using (MemoryStream iconStream = new MemoryStream())
             {
@@ -24,7 +25,7 @@ namespace AJLibrary
                     // 写入每个图像的目录信息
                     foreach (int size in sizes)
                     {
-                        using (Bitmap resizedBitmap = new Bitmap(Image.FromFile(sourceImagePath), new Size(size, size)))
+                        using (Bitmap resizedBitmap = new Bitmap(sourceImage, new Size(size, size)))
                         {
                             using (MemoryStream imageStream = new MemoryStream())
                             {
@@ -47,7 +48,7 @@ namespace AJLibrary
                     // 写入每个图像的数据
                     foreach (int size in sizes)
                     {
-                        using (Bitmap resizedBitmap = new Bitmap(Image.FromFile(sourceImagePath), new Size(size, size)))
+                        using (Bitmap resizedBitmap = new Bitmap(sourceImage, new Size(size, size)))
                         {
                             using (MemoryStream imageStream = new MemoryStream())
                             {
@@ -62,6 +63,7 @@ namespace AJLibrary
                 }
             }
         }
+
     }
 
 }

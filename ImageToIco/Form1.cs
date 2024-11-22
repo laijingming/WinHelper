@@ -63,28 +63,20 @@ namespace ImageToIco
                     sizes.Add(int.Parse(item.Value.ToString()));
                 }
             }
-            if (!File.Exists(textEdit2.Text))
+            if (pictureEdit1.Image==null)
             {
                 textEdit2.ErrorText = "未上传图片！";
                 return;
             }
-            if (sizes.Count>0 && File.Exists(textEdit2.Text))
+            if (sizes.Count>0)
             {
-
-                int count = 1;
-                string extension = ".ico";
-                string outputIconPath = Path.ChangeExtension(textEdit2.Text, extension);
-                string fileNameWithoutExtension = Path.GetDirectoryName(outputIconPath)+"\\"+Path.GetFileNameWithoutExtension(outputIconPath);
-
-                // 循环检查文件是否存在
-                while (File.Exists(outputIconPath))
+                string outputIconPath = Path.GetFullPath("./icon/"); ;
+                if (!Directory.Exists(outputIconPath))
                 {
-                    // 生成不重名的文件名
-                    outputIconPath = $"{fileNameWithoutExtension}_{count}{extension}";
-                    count++;
+                    Directory.CreateDirectory(outputIconPath);
                 }
-
-                AJLibrary.IconConverter.SaveIconWithMultipleSizes(textEdit2.Text, outputIconPath, sizes.ToArray());
+                outputIconPath = outputIconPath+ Time.Now().ToString() + ".ico";
+                AJLibrary.IconConverter.SaveIconWithMultipleSizes(pictureEdit1.Image, outputIconPath, sizes.ToArray());
                 pictureEdit2.Image = Image.FromFile(outputIconPath);
                 textEdit3.Text = outputIconPath;
             }

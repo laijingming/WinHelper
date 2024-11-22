@@ -1,0 +1,15 @@
+D:\CSharp\Helper\Sever\bin\Debug\net8.0\Sever.exe
+D:\CSharp\Helper\Sever\bin\Debug\net8.0\Sever.deps.json
+D:\CSharp\Helper\Sever\bin\Debug\net8.0\Sever.runtimeconfig.json
+D:\CSharp\Helper\Sever\bin\Debug\net8.0\Sever.dll
+D:\CSharp\Helper\Sever\bin\Debug\net8.0\Sever.pdb
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\Sever.GeneratedMSBuildEditorConfig.editorconfig
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\Sever.AssemblyInfoInputs.cache
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\Sever.AssemblyInfo.cs
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\Sever.csproj.CoreCompileInputs.cache
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\Sever.sourcelink.json
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\Sever.dll
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\refint\Sever.dll
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\Sever.pdb
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\Sever.genruntimeconfig.cache
+D:\CSharp\Helper\Sever\obj\Debug\net8.0\ref\Sever.dll

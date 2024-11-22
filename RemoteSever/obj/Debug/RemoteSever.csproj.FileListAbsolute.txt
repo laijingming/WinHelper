@@ -1,0 +1,10 @@
+D:\CSharp\Helper\RemoteSever\bin\Debug\RemoteSever.exe.config
+D:\CSharp\Helper\RemoteSever\bin\Debug\RemoteSever.exe
+D:\CSharp\Helper\RemoteSever\bin\Debug\RemoteSever.pdb
+D:\CSharp\Helper\RemoteSever\obj\Debug\RemoteSever.csproj.AssemblyReference.cache
+D:\CSharp\Helper\RemoteSever\obj\Debug\RemoteSever.Form1.resources
+D:\CSharp\Helper\RemoteSever\obj\Debug\RemoteSever.Properties.Resources.resources
+D:\CSharp\Helper\RemoteSever\obj\Debug\RemoteSever.csproj.GenerateResource.cache
+D:\CSharp\Helper\RemoteSever\obj\Debug\RemoteSever.csproj.CoreCompileInputs.cache
+D:\CSharp\Helper\RemoteSever\obj\Debug\RemoteSever.exe
+D:\CSharp\Helper\RemoteSever\obj\Debug\RemoteSever.pdb

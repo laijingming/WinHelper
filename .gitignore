@@ -6,5 +6,9 @@ Helper/
 /ImageToIco/bin/
 /ImageToIco/obj/
 /packages/
+/RemoteClient/bin/
+/RemoteClient/obj/
+/RemoteSever/bin/
+/RemoteClient/obj/
 .vs/
 /test/
