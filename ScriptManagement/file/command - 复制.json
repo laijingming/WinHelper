@@ -1,0 +1,101 @@
+[
+  {
+    "name": "PHP1",
+    "command": "php ",
+    "children": [
+      {
+        "name": "php脚本1",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_1.php",
+        "type": 0
+      },
+      {
+        "name": "php脚本2",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_2.php",
+        "type": 0
+      },
+      {
+        "name": "php脚本3",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_3.php",
+        "type": 0
+      },
+      {
+        "name": "php脚本4、5",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_4.php,D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_5.php",
+        "type": 0
+      }
+    ]
+  },
+  {
+    "name": "PHP2",
+    "command": "php D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_6.php",
+    "children": [
+      {
+        "name": "php脚本6参数1",
+        "command": "1",
+        "type": 1
+      },
+      {
+        "name": "php脚本6参数2",
+        "command": "2",
+        "type": 1
+      },
+      {
+        "name": "php脚本6参数3",
+        "command": "3",
+        "type": 1
+      },
+      {
+        "name": "php脚本6参数4",
+        "command": "4",
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "GIT",
+    "command": " ",
+    "children": [
+      {
+        "name": "本地更新",
+        "command": "cd D:\\CSharp\\Helper&&git pull",
+        "type": 2
+      },
+      {
+        "name": "全部提交",
+        "command": "cd D:\\CSharp\\Helper&&git add .&&git commit -m \"全部修改提交\"&&git push origin main",
+        "type": 2
+      },
+      {
+        "name": "配置提交",
+        "command": "cd D:\\CSharp\\Helper\\ScriptManagement\\file&&git add .&&cd D:\\CSharp\\Helper\\ScriptManagement\\Resources&&git add .&&git commit -m \"配置提交\"&&git push origin main",
+        "type": 2
+      }
+    ]
+  },
+  {
+    "name": "PHP3",
+    "command": "php D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_6.php",
+    "children": [
+      {
+        "name": "php脚本6参数1",
+        "command": "1",
+        "type": 3
+      },
+      {
+        "name": "php脚本6参数2",
+        "command": "2",
+        "type": 3
+      },
+      {
+        "name": "php脚本6参数3",
+        "command": "3",
+        "type": 3
+      },
+      {
+        "name": "php脚本6参数4",
+        "command": "4",
+        "type": 3
+      }
+    ]
+  }
+]

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraEditors.TableLayout.ItemTemplateBase itemTemplateBase1 = new DevExpress.XtraEditors.TableLayout.ItemTemplateBase();
-            DevExpress.XtraEditors.TableLayout.TemplatedItemElement templatedItemElement1 = new DevExpress.XtraEditors.TableLayout.TemplatedItemElement();
-            DevExpress.XtraEditors.TableLayout.TableRowDefinition tableRowDefinition1 = new DevExpress.XtraEditors.TableLayout.TableRowDefinition();
+            DevExpress.XtraEditors.TableLayout.ItemTemplateBase itemTemplateBase6 = new DevExpress.XtraEditors.TableLayout.ItemTemplateBase();
+            DevExpress.XtraEditors.TableLayout.TemplatedItemElement templatedItemElement6 = new DevExpress.XtraEditors.TableLayout.TemplatedItemElement();
+            DevExpress.XtraEditors.TableLayout.TableRowDefinition tableRowDefinition6 = new DevExpress.XtraEditors.TableLayout.TableRowDefinition();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.pictureEdit2 = new DevExpress.XtraEditors.PictureEdit();
             this.checkedListBoxControl1 = new DevExpress.XtraEditors.CheckedListBoxControl();
@@ -69,6 +69,7 @@
             this.pictureEdit2.Location = new System.Drawing.Point(254, 200);
             this.pictureEdit2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureEdit2.Name = "pictureEdit2";
+            this.pictureEdit2.Properties.NullText = " ";
             this.pictureEdit2.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             this.pictureEdit2.Properties.ShowMenu = false;
             this.pictureEdit2.Size = new System.Drawing.Size(179, 105);
@@ -92,16 +93,16 @@
             this.checkedListBoxControl1.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.checkedListBoxControl1.Size = new System.Drawing.Size(169, 263);
             this.checkedListBoxControl1.TabIndex = 4;
-            templatedItemElement1.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Left;
-            templatedItemElement1.FieldName = "DisplayMember";
-            templatedItemElement1.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter;
-            templatedItemElement1.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.ZoomInside;
-            templatedItemElement1.Text = "DisplayMember";
-            templatedItemElement1.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter;
-            itemTemplateBase1.Elements.Add(templatedItemElement1);
-            itemTemplateBase1.Name = "template1";
-            itemTemplateBase1.Rows.Add(tableRowDefinition1);
-            this.checkedListBoxControl1.Templates.Add(itemTemplateBase1);
+            templatedItemElement6.AnchorAlignment = DevExpress.Utils.AnchorAlignment.Left;
+            templatedItemElement6.FieldName = "DisplayMember";
+            templatedItemElement6.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter;
+            templatedItemElement6.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.ZoomInside;
+            templatedItemElement6.Text = "DisplayMember";
+            templatedItemElement6.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter;
+            itemTemplateBase6.Elements.Add(templatedItemElement6);
+            itemTemplateBase6.Name = "template1";
+            itemTemplateBase6.Rows.Add(tableRowDefinition6);
+            this.checkedListBoxControl1.Templates.Add(itemTemplateBase6);
             // 
             // label3
             // 
@@ -199,11 +200,13 @@
             this.pictureEdit1.Location = new System.Drawing.Point(254, 42);
             this.pictureEdit1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureEdit1.Name = "pictureEdit1";
+            this.pictureEdit1.Properties.NullText = " ";
             this.pictureEdit1.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             this.pictureEdit1.Properties.ShowEditMenuItem = DevExpress.Utils.DefaultBoolean.True;
             this.pictureEdit1.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
             this.pictureEdit1.Size = new System.Drawing.Size(179, 150);
             this.pictureEdit1.TabIndex = 1;
+            this.pictureEdit1.PopupMenuShowing += new DevExpress.XtraEditors.Events.PopupMenuShowingEventHandler(this.pictureEdit1_PopupMenuShowing);
             // 
             // labelControl5
             // 
@@ -237,6 +240,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedListBoxControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();

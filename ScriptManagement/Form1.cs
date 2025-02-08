@@ -4,26 +4,26 @@ using System.Collections.Generic;
 using AJLibrary;
 using System.Drawing;
 using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors;
 using DevExpress.XtraTreeList;
-using DevExpress.Data.ExpressionEditor;
 using System.Windows.Forms;
-using System.Diagnostics;
-using static AJLibrary.Cmd;
 using System.IO;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraTreeList.Menu;
-using ScriptManagement.Class;using DevExpress.Utils.Extensions;
+using ScriptManagement.Class;
+using DevExpress.XtraGrid.Views.Tile;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Linq;
-using System.Data;
-
+using DevExpress.Utils;
+using System.Collections.ObjectModel;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Tile.ViewInfo;
 
 namespace ScriptManagement
 {
     public partial class Form1 : DevExpress.XtraEditors.XtraForm
     {
-        private string resoure_path = "./file/command.json";
+        private string resoure_path = "./file/command - 复制.json";
         private string layoutFilePath = "./file/dockManagerLayout.xml"; // 保存布局的文件路径
         public TaskManage taskManage = new TaskManage();
         DevTreeListInit treeListInitial;
@@ -33,6 +33,7 @@ namespace ScriptManagement
             treeListInitial = new DevTreeListInit(treeList1);
             Cmd.displayPartialResult = DisplayPartialResult;
             InitTree();
+            InitGrid();
             InitMemo();
         }
 
@@ -44,7 +45,7 @@ namespace ScriptManagement
                 try
                 {
                     // 从 XML 文件中恢复布局
-                    dockManager1.RestoreLayoutFromXml(layoutFilePath);
+                    //dockManager1.RestoreLayoutFromXml(layoutFilePath);
                 }
                 catch (Exception ex)
                 {
@@ -71,7 +72,163 @@ namespace ScriptManagement
             }
         }
 
+        #region tileGrid
+
+        private ImageCollection imageCollection;
+        private ContextMenuStrip contextMenuStrip;
+        ToolStripMenuItem topMenuItem;
+        ToolStripMenuItem unTopMenuItem;
+        private void InitGrid()
+        {
+            gridControl1.DataSource = CommandLog.getIns.data;
+
+
+            // 设置 TileView 为卡片模式
+            tileView1.OptionsTiles.RowCount = 0; // 自动计算行数
+            tileView1.OptionsTiles.Orientation = Orientation.Vertical; // 自动计算行数
+            tileView1.OptionsTiles.ItemSize = new Size(200, 100); // 卡片大小
+
+            //排序
+            tileView1.Columns["to_up"].SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+            tileView1.Columns["num"].SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+            tileView1.Columns["time"].SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+
+            // **定义 TileView 模板**
+            tileView1.TileTemplate.Clear();
+
+            // 定义卡片模板
+            tileView1.TileTemplate.Add(new TileViewItemElement()
+            {
+                Column = tileView1.Columns["name"],
+                TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter
+            });
+
+
+            // 创建 ImageCollection 存储图标
+            imageCollection = new ImageCollection();
+            imageCollection.AddImage(Image.FromFile("./file/Upload_32x32.png"));  // 置顶图标
+
+
+            // 创建右键菜单
+            contextMenuStrip = new ContextMenuStrip();
+            topMenuItem = new ToolStripMenuItem("置顶");
+            topMenuItem.Click += TopMenuItem_Click;
+            contextMenuStrip.Items.Add(topMenuItem);
+
+            unTopMenuItem = new ToolStripMenuItem("取消置顶");
+            unTopMenuItem.Click += UnTopMenuItem_Click; ;
+            contextMenuStrip.Items.Add(unTopMenuItem);
+
+
+            tileView1.DoubleClick += TileView1_DoubleClick;
+            tileView1.ItemRightClick += TileView1_ItemRightClick;
+            tileView1.ItemCustomize += TileView1_ItemCustomize;
+        }
+
+        /// <summary>
+        /// 处理取消置顶逻辑
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UnTopMenuItem_Click(object sender, EventArgs e)
+        {
+            CommandLogModel model = (CommandLogModel)tileView1.GetFocusedRow();
+            CommandLog.getIns.SetToUp(model.name, false);
+            tileView1.RefreshData();
+        }
+
+        /// <summary>
+        /// 处理组合命令置顶逻辑
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void TopMenuItem_Click(object sender, EventArgs e)
+        {
+            CommandLogModel model = (CommandLogModel)tileView1.GetFocusedRow();
+            CommandLog.getIns.SetToUp(model.name);
+            tileView1.RefreshData();
+        }
+
+        /// <summary>
+        /// 右键显示置顶菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TileView1_ItemRightClick(object sender, TileViewItemClickEventArgs e)
+        {
+            CommandLogModel model = (CommandLogModel)tileView1.GetFocusedRow();
+            if (model != null)
+            {
+                if (model.to_up>0)
+                {
+                    unTopMenuItem.Visible = true;
+                }
+                else
+                {
+                    unTopMenuItem.Visible = false;
+                }
+                contextMenuStrip.Show(Cursor.Position);//当前鼠标所在位置
+            }
+        }
+
+
+
+        /// <summary>
+        /// 动态加载置顶图标
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TileView1_ItemCustomize(object sender, TileViewItemCustomizeEventArgs e)
+        {
+
+            //添加昵称
+            var nickname = (string)tileView1.GetRowCellValue(e.RowHandle, "nickname");
+            if (nickname!=null)
+            {
+                // 定义卡片模板
+                e.Item.Elements.Add(new TileViewItemElement()
+                {
+                    Text = nickname,
+                    TextAlignment = TileItemContentAlignment.TopCenter
+                });
+            }
+
+            var isPinned = Convert.ToInt16(tileView1.GetRowCellValue(e.RowHandle, "to_up"));
+            if (isPinned > 0)
+            {   
+                e.Item.Elements.Add(new TileViewItemElement()
+                {
+                    Image = imageCollection.Images[0], // 默认图标
+                    ImageAlignment = TileItemContentAlignment.TopLeft,
+                });
+            }
+
+        }
+
+        /// <summary>
+        /// 双击执行组合任务
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TileView1_DoubleClick(object sender, EventArgs e)
+        {
+            CommandLogModel model = (CommandLogModel)tileView1.GetFocusedRow();
+            string[] name_arr = model.name.Split('、');
+            foreach (string name in name_arr)
+            {
+                TreeListNode node = treeList1.FindNode(x => x.GetValue("name").ToString() == name);
+                taskManage.AddTaskListByNode(node);
+            }
+            TaskRun();
+        }
+
+        #endregion
+
         #region treelist
+
+
+
         private void InitTree()
         {
             List<CommandModel> commandModels = JsonHelper.DeserializeJsonFileToType<List<CommandModel>>(resoure_path);
@@ -108,70 +265,9 @@ namespace ScriptManagement
                     }
                 },
             });
-
-
-            repositoryItemButtonEdit2.ButtonClick += ButtonEdit_ButtonClick2;
-            treeList2.DataSource = CommandLog.getIns.data;
-            treeList2.Columns["time"].SortOrder = SortOrder.Descending;
-            treeList2.Columns["to_up"].SortOrder = SortOrder.Descending;
-            treeList2.Columns["num"].SortOrder = SortOrder.Descending;
-            treeList2.Columns["time"].Visible = false;
-            treeList2.Columns["to_up"].Visible = false;
-            treeList2.Columns["num"].Visible = false;
-            treeList2.OptionsView.AutoWidth = true;
-            treeList2.Columns["name"].BestFit();
-            treeList2.CustomDrawNodeCell += TreeList2_CustomDrawNodeCell;
-
-            TreeListDev(treeList2, new Dictionary<string, DevExpress.XtraTreeList.PopupMenuShowingEventHandler>()
-            {
-                {"置顶", (se, e2) => //按照选中顺序执行节点
-                    {   
-                        if (treeList2.FocusedNode != null)
-                        {
-                            string name = treeList2.FocusedNode.GetValue("name").ToString();
-                            CommandLog.getIns.SetToUp(name);
-                            treeList2.RefreshDataSource();
-                        }
-                        
-                    }
-                },
-                {"取消置顶", (se, e2) =>
-                    {
-                        if (treeList2.FocusedNode != null)
-                        {
-                            string name = treeList2.FocusedNode.GetValue("name").ToString();
-                            CommandLog.getIns.SetToUp(name,false);
-                            treeList2.RefreshDataSource();
-                        }
-                        
-                    }
-                },
-            });
+            
         }
 
-        private void TreeList2_CustomDrawNodeCell(object sender, CustomDrawNodeCellEventArgs e)
-        {
-            // 假设 "to_up" 是表示节点是否置顶的字段
-            int isTopNode = Convert.ToInt32(e.Node.GetValue("to_up"));
-
-            if (isTopNode>0 && e.Column.FieldName == "name") // 只在特定列绘制图标
-            {
-                string originalText = e.CellText;
-                string topText = " [置顶]";
-
-                // 使用不同的字体样式和颜色绘制“置顶”标识
-                Font boldFont = new Font(e.Appearance.Font, FontStyle.Bold);
-                Brush topBrush = Brushes.Red; // 红色刷子来显示“置顶”字样
-
-                // 绘制原始文本
-                e.Graphics.DrawString(originalText, e.Appearance.Font, Brushes.Black, e.Bounds.X, e.Bounds.Y+4);
-
-                // 在后面添加显眼的“置顶”标识
-                e.Graphics.DrawString(topText, boldFont, topBrush, e.Bounds.X + e.Graphics.MeasureString(originalText, e.Appearance.Font).Width, e.Bounds.Y+4);
-
-                e.Handled = true; // 告诉 TreeList 已经处理
-            }
-        }
 
         private void ButtonEdit_ButtonClick(object sender, ButtonPressedEventArgs e)
         {
@@ -179,17 +275,6 @@ namespace ScriptManagement
             TaskRun();
         }
 
-        private void ButtonEdit_ButtonClick2(object sender, ButtonPressedEventArgs e)
-        {
-            string name_str = treeList2.FocusedNode.GetValue("name").ToString();
-            string[] name_arr = name_str.Split('、');
-            foreach (string name in name_arr)
-            {
-                TreeListNode node = treeList1.FindNode(x => x.GetValue("name").ToString() == name);
-                taskManage.AddTaskListByNode(node);
-            }
-            TaskRun();
-        }
 
         private void TreeList1_NodeCellStyle(object sender, DevExpress.XtraTreeList.GetCustomNodeCellStyleEventArgs e)
         {
@@ -199,24 +284,24 @@ namespace ScriptManagement
                 switch (int.Parse(e.Node.GetValue(e.Column).ToString()))
                 {
                     case 0:
-                        //e.Appearance.BackColor = Color.LightBlue;
-                        e.Appearance.ForeColor = Color.Blue;
+                        e.Appearance.BackColor = Color.LightBlue;
+                        e.Appearance.ForeColor = Color.Black;
                         break;
                     case 1:
-                        //e.Appearance.BackColor = Color.LightGreen;
-                        e.Appearance.ForeColor = Color.Green;
+                        e.Appearance.BackColor = Color.LightGreen;
+                        e.Appearance.ForeColor = Color.Black;
                         break;
                     case 2:
-                        //e.Appearance.BackColor = Color.LightCoral;
-                        e.Appearance.ForeColor = Color.Red;
+                        e.Appearance.BackColor = Color.LightCoral;
+                        e.Appearance.ForeColor = Color.Black;
                         break;
                     case 3:
-                        //e.Appearance.BackColor = Color.LightCoral;
-                        e.Appearance.ForeColor = Color.DarkRed;
+                        e.Appearance.BackColor = Color.LightCoral;
+                        e.Appearance.ForeColor = Color.Black;
                         break;
                     default:
-                        //e.Appearance.BackColor = Color.LightGray;
-                        e.Appearance.ForeColor = Color.DarkGray;
+                        e.Appearance.BackColor = Color.LightGray;
+                        e.Appearance.ForeColor = Color.Black;
                         break;
                 }
             }
@@ -232,14 +317,6 @@ namespace ScriptManagement
                     return;
                 }
                 int val = int.Parse(e.Value.ToString());
-                //if (!e.Node.HasChildren && int.Parse(e.Node.ParentNode.GetValue("type").ToString()) == 1)
-                //{
-                //    val = 1;
-                //}
-                //if (!e.Node.HasChildren && int.Parse(e.Node.ParentNode.GetValue("type").ToString()) == 3)
-                //{
-                //    val = 3;
-                //}
                 switch (val)
                 {
                     case 0:
@@ -303,7 +380,7 @@ namespace ScriptManagement
         public void TaskRun() 
         {
             taskManage.Run();
-            treeList2.RefreshDataSource();
+            tileView1.RefreshData();
         } 
         #endregion
 
@@ -313,13 +390,6 @@ namespace ScriptManagement
         {
             memoEdit1.Properties.ScrollBars = ScrollBars.Both;
             memoEdit1.Properties.ContextMenuStrip = new ContextMenuStrip();
-
-            //memoEdit1.KeyDown += MemoEdit1_KeyDown;
-            //Cmd.work_path = Cmd.ExecCommandSync("[Environment]::GetFolderPath('Desktop')").Trim();
-            //Cmd.work_path = Cmd.ExecCommandSync("echo %USERPROFILE%\\Desktop").Trim();
-            //ShowPrompt(true);
-
-
         }
 
 

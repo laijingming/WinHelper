@@ -9,6 +9,8 @@ using System.Linq;
 using System.Collections.Generic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Windows.Forms;
+using DevExpress.Utils.Menu;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ImageToIco
 {
@@ -17,7 +19,8 @@ namespace ImageToIco
         public Form1()
         {
             InitializeComponent();
-
+            //ExternalConfig();
+            ReplaceLoadMenuItem();
         } 
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace ImageToIco
             if (inputImagePath != null )
             {
                 textEdit2.Text = inputImagePath;
-                pictureEdit1.Image = Image.FromFile(inputImagePath);
+                pictureEdit1.LoadAsync(inputImagePath);
             }
         }
 
@@ -77,7 +80,7 @@ namespace ImageToIco
                 }
                 outputIconPath = outputIconPath+ Time.Now().ToString() + ".ico";
                 AJLibrary.IconConverter.SaveIconWithMultipleSizes(pictureEdit1.Image, outputIconPath, sizes.ToArray());
-                pictureEdit2.Image = Image.FromFile(outputIconPath);
+                pictureEdit2.LoadAsync(outputIconPath);
                 textEdit3.Text = outputIconPath;
             }
         }
@@ -123,6 +126,42 @@ namespace ImageToIco
             if (Directory.Exists(dir)) {
                 System.Diagnostics.Process.Start("explorer.exe", dir);
             }
+        }
+
+        private void ReplaceLoadMenuItem()
+        {
+            // 遍历当前右键菜单项
+            //for (int i = 0; i < pictureEdit1.Properties.ContextMenu.MenuItems.Count; i++)
+            //{
+                
+            //}
+        }
+
+        private void pictureEdit1_PopupMenuShowing(object sender, DevExpress.XtraEditors.Events.PopupMenuShowingEventArgs e)
+        {
+            DXMenuItem execSelectedItem = new DXMenuItem("调用");
+
+            foreach (DXMenuItem item in e.PopupMenu.Items)
+            {
+                if (item.Caption == "调用")
+                {
+                    item.Visible = false;
+                    execSelectedItem.ImageOptions.Image=item.ImageOptions.Image;
+                }
+            }
+            execSelectedItem.Click += simpleButton1_Click_1;
+            e.PopupMenu.Items.Add(execSelectedItem);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ExternalConfig() 
+        {
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
         }
     }
 

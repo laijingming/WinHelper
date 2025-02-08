@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExternalAppHelper.cs" />
     <Compile Include="FileTool.cs" />
     <Compile Include="IconConvert.cs" />
     <Compile Include="JsonCacheBase.cs" />

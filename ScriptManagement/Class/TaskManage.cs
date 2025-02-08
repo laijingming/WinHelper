@@ -212,7 +212,7 @@ namespace ScriptManagement
         {
             if (start)
             {
-                waitForm.ShowMe(null, $"正在执行阻塞命令：{name}", "请稍等");
+                waitForm.ShowMe(null, $"正在执行阻塞命令：{name}  ", "请稍等");
             }
             else
             {

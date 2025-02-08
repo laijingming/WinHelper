@@ -54,6 +54,5 @@ namespace ScriptManagement.Class
             getIns.data[index].to_up = to_up;
             getIns.MarkUpdated();
         }
-
     }
 }

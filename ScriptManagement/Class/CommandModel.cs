@@ -25,7 +25,12 @@ namespace ScriptManagement.Class
     /// 任务实体
     /// </summary>
     public class CommandLogModel
-    {
+    {   
+        /// <summary>
+        /// 展示用名字如果有就显示
+        /// </summary>
+        public string nickname { get; set; }
+
         public string name { get; set; }
         /// <summary>
         /// 执行次数

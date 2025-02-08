@@ -29,11 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
@@ -53,13 +48,8 @@
             this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.dockPanel2 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.treeList2 = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn8 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.repositoryItemButtonEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
-            this.treeListColumn5 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn6 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn7 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn9 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.tileView1 = new DevExpress.XtraGrid.Views.Tile.TileView();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
             this.dockPanel1.SuspendLayout();
             this.dockPanel1_Container.SuspendLayout();
@@ -70,8 +60,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).BeginInit();
             this.dockPanel2.SuspendLayout();
             this.dockPanel2_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tileView1)).BeginInit();
             this.SuspendLayout();
             // 
             // dockManager1
@@ -82,7 +72,7 @@
             this.dockPanel1,
             this.dockPanel4,
             this.dockPanel2});
-            this.dockManager1.Style = DevExpress.XtraBars.Docking2010.Views.DockingViewStyle.Light;
+            this.dockManager1.Style = DevExpress.XtraBars.Docking2010.Views.DockingViewStyle.Classic;
             this.dockManager1.TopZIndexControls.AddRange(new string[] {
             "DevExpress.XtraBars.BarDockControl",
             "DevExpress.XtraBars.StandaloneBarDockControl",
@@ -112,10 +102,10 @@
             // dockPanel1_Container
             // 
             this.dockPanel1_Container.Controls.Add(this.memoEdit1);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 44);
+            this.dockPanel1_Container.Location = new System.Drawing.Point(4, 25);
             this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(1063, 226);
+            this.dockPanel1_Container.Size = new System.Drawing.Size(1055, 241);
             this.dockPanel1_Container.TabIndex = 0;
             // 
             // memoEdit1
@@ -125,7 +115,7 @@
             this.memoEdit1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.memoEdit1.Name = "memoEdit1";
             this.memoEdit1.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.memoEdit1.Size = new System.Drawing.Size(1063, 226);
+            this.memoEdit1.Size = new System.Drawing.Size(1055, 241);
             this.memoEdit1.TabIndex = 1;
             // 
             // dockPanel4
@@ -144,10 +134,10 @@
             // dockPanel4_Container
             // 
             this.dockPanel4_Container.Controls.Add(this.treeList1);
-            this.dockPanel4_Container.Location = new System.Drawing.Point(0, 43);
+            this.dockPanel4_Container.Location = new System.Drawing.Point(4, 24);
             this.dockPanel4_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel4_Container.Name = "dockPanel4_Container";
-            this.dockPanel4_Container.Size = new System.Drawing.Size(399, 395);
+            this.dockPanel4_Container.Size = new System.Drawing.Size(391, 410);
             this.dockPanel4_Container.TabIndex = 0;
             // 
             // treeList1
@@ -171,7 +161,7 @@
             this.treeList1.OptionsView.ShowVertLines = false;
             this.treeList1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemButtonEdit1});
-            this.treeList1.Size = new System.Drawing.Size(399, 395);
+            this.treeList1.Size = new System.Drawing.Size(391, 410);
             this.treeList1.TabIndex = 1;
             this.treeList1.TreeLevelWidth = 17;
             this.treeList1.VertScrollVisibility = DevExpress.XtraTreeList.ScrollVisibility.Never;
@@ -229,7 +219,7 @@
             this.repositoryItemButtonEdit1.AutoHeight = false;
             this.repositoryItemButtonEdit1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Right, "", -1, true, true, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "执行", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Right, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "执行", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.repositoryItemButtonEdit1.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
             this.repositoryItemButtonEdit1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
@@ -242,7 +232,7 @@
             this.dockPanel2.Location = new System.Drawing.Point(400, 0);
             this.dockPanel2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel2.Name = "dockPanel2";
-            this.dockPanel2.OriginalSize = new System.Drawing.Size(511, 200);
+            this.dockPanel2.OriginalSize = new System.Drawing.Size(729, 200);
             this.dockPanel2.SavedDock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
             this.dockPanel2.SavedIndex = 1;
             this.dockPanel2.Size = new System.Drawing.Size(663, 438);
@@ -250,96 +240,30 @@
             // 
             // dockPanel2_Container
             // 
-            this.dockPanel2_Container.Controls.Add(this.treeList2);
-            this.dockPanel2_Container.Location = new System.Drawing.Point(0, 43);
+            this.dockPanel2_Container.Controls.Add(this.gridControl1);
+            this.dockPanel2_Container.Location = new System.Drawing.Point(4, 24);
             this.dockPanel2_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel2_Container.Name = "dockPanel2_Container";
-            this.dockPanel2_Container.Size = new System.Drawing.Size(663, 395);
+            this.dockPanel2_Container.Size = new System.Drawing.Size(655, 409);
             this.dockPanel2_Container.TabIndex = 0;
             // 
-            // treeList2
+            // gridControl1
             // 
-            this.treeList2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.treeList2.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn8,
-            this.treeListColumn5,
-            this.treeListColumn6,
-            this.treeListColumn7,
-            this.treeListColumn9});
-            this.treeList2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeList2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeList2.Location = new System.Drawing.Point(0, 0);
-            this.treeList2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.treeList2.Name = "treeList2";
-            this.treeList2.OptionsMenu.EnableColumnMenu = false;
-            this.treeList2.OptionsPrint.PrintFilledTreeIndent = true;
-            this.treeList2.OptionsPrint.PrintReportFooter = false;
-            this.treeList2.OptionsView.ShowVertLines = false;
-            this.treeList2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemButtonEdit2});
-            this.treeList2.Size = new System.Drawing.Size(663, 395);
-            this.treeList2.TabIndex = 2;
-            this.treeList2.TreeLevelWidth = 17;
-            this.treeList2.VertScrollVisibility = DevExpress.XtraTreeList.ScrollVisibility.Never;
+            this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl1.Location = new System.Drawing.Point(0, 0);
+            this.gridControl1.MainView = this.tileView1;
+            this.gridControl1.Name = "gridControl1";
+            this.gridControl1.Size = new System.Drawing.Size(655, 409);
+            this.gridControl1.TabIndex = 0;
+            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.tileView1});
             // 
-            // treeListColumn8
+            // tileView1
             // 
-            this.treeListColumn8.Caption = "执行";
-            this.treeListColumn8.ColumnEdit = this.repositoryItemButtonEdit2;
-            this.treeListColumn8.FieldName = "执行";
-            this.treeListColumn8.MaxWidth = 100;
-            this.treeListColumn8.Name = "treeListColumn8";
-            this.treeListColumn8.Visible = true;
-            this.treeListColumn8.VisibleIndex = 0;
-            // 
-            // repositoryItemButtonEdit2
-            // 
-            this.repositoryItemButtonEdit2.AutoHeight = false;
-            this.repositoryItemButtonEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Right, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "执行", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
-            this.repositoryItemButtonEdit2.Name = "repositoryItemButtonEdit2";
-            this.repositoryItemButtonEdit2.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
-            // 
-            // treeListColumn5
-            // 
-            this.treeListColumn5.Caption = "名称";
-            this.treeListColumn5.FieldName = "name";
-            this.treeListColumn5.MinWidth = 23;
-            this.treeListColumn5.Name = "treeListColumn5";
-            this.treeListColumn5.OptionsColumn.AllowEdit = false;
-            this.treeListColumn5.Visible = true;
-            this.treeListColumn5.VisibleIndex = 1;
-            this.treeListColumn5.Width = 87;
-            // 
-            // treeListColumn6
-            // 
-            this.treeListColumn6.Caption = "置顶";
-            this.treeListColumn6.FieldName = "to_up";
-            this.treeListColumn6.MinWidth = 23;
-            this.treeListColumn6.Name = "treeListColumn6";
-            this.treeListColumn6.Visible = true;
-            this.treeListColumn6.VisibleIndex = 2;
-            this.treeListColumn6.Width = 87;
-            // 
-            // treeListColumn7
-            // 
-            this.treeListColumn7.Caption = "次数";
-            this.treeListColumn7.FieldName = "num";
-            this.treeListColumn7.MinWidth = 23;
-            this.treeListColumn7.Name = "treeListColumn7";
-            this.treeListColumn7.Visible = true;
-            this.treeListColumn7.VisibleIndex = 3;
-            this.treeListColumn7.Width = 87;
-            // 
-            // treeListColumn9
-            // 
-            this.treeListColumn9.Caption = "时间";
-            this.treeListColumn9.FieldName = "time";
-            this.treeListColumn9.MinWidth = 23;
-            this.treeListColumn9.Name = "treeListColumn9";
-            this.treeListColumn9.Visible = true;
-            this.treeListColumn9.VisibleIndex = 4;
-            this.treeListColumn9.Width = 87;
+            this.tileView1.GridControl = this.gridControl1;
+            this.tileView1.Name = "tileView1";
+            this.tileView1.OptionsTiles.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.tileView1.OptionsTiles.RowCount = 0;
             // 
             // Form1
             // 
@@ -366,8 +290,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).EndInit();
             this.dockPanel2.ResumeLayout(false);
             this.dockPanel2_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeList2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tileView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -386,15 +310,10 @@
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
         private DevExpress.XtraBars.Docking.DockPanel dockPanel2;
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel2_Container;
-        private DevExpress.XtraTreeList.TreeList treeList2;
-        private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repositoryItemButtonEdit2;
         private DevExpress.XtraBars.Docking.DockPanel dockPanel4;
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel4_Container;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn5;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn6;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn7;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn8;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn9;
+        private DevExpress.XtraGrid.GridControl gridControl1;
+        private DevExpress.XtraGrid.Views.Tile.TileView tileView1;
     }
 }
 

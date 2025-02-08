@@ -1,15 +1,10 @@
 ﻿using DevExpress.LookAndFeel;
-using DevExpress.Skins;
-using DevExpress.UserSkins;
-using ScriptManagement.Class;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
-namespace ScriptManagement
+namespace ExternalApp
 {
-    public static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -19,14 +14,7 @@ namespace ScriptManagement
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.ApplicationExit += Application_ApplicationExit;
-
             Application.Run(new Form1());
-        }
-
-        private static void Application_ApplicationExit(object sender, EventArgs e)
-        {
-            CommandLog.getIns.Save();
         }
     }
 }
