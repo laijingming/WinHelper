@@ -1,161 +1,100 @@
 [
   {
-    "name": "解析",
+    "name": "PHP1",
     "command": "php ",
-    "type": 0,
     "children": [
       {
-        "name": "官方配置",
-        "command": "D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat.php ds,D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat2.php ds",
+        "name": "php脚本1",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_1.php",
         "type": 0
       },
       {
-        "name": "繁体配置",
-        "command": "D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat2.php ds_tw,D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat.php ds_tw",
+        "name": "php脚本2",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_2.php",
         "type": 0
       },
       {
-        "name": "韩国配置",
-        "command": "D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat2.php ds_hg,D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat.php ds_hg",
+        "name": "php脚本3",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_3.php",
         "type": 0
       },
       {
-        "name": "日本配置",
-        "command": "D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat2.php ds_jp,D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat.php ds_jp",
-        "type": 0
-      },
-      {
-        "name": "十九配置",
-        "command": "D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat2.php ds01,D:\/dushi_backend\/test\/administrator\/phpexcel\/excel_for_bat.php ds01",
+        "name": "php脚本4、5",
+        "command": "D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_4.php,D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_5.php",
         "type": 0
       }
     ]
   },
   {
-    "name": "语言包解析",
-    "command": "php D:\/dushi_backend\/test\/administrator\/phpexcel\/lang_excell_to_define.php ",
-    "type": 0,
+    "name": "PHP2",
+    "command": "php D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_6.php",
     "children": [
       {
-        "name": "官方语言包",
-        "command": "dszh",
-        "type": 0
+        "name": "php脚本6参数1",
+        "command": "1",
+        "type": 1
       },
       {
-        "name": "繁体语言包",
-        "command": "dstw",
-        "type": 0
+        "name": "php脚本6参数2",
+        "command": "2",
+        "type": 1
       },
       {
-        "name": "韩国语言包",
-        "command": "dshg",
-        "type": 0
+        "name": "php脚本6参数3",
+        "command": "3",
+        "type": 1
       },
       {
-        "name": "日本语言包",
-        "command": "dsjp",
-        "type": 0
-      },
-      {
-        "name": "十九语言包",
-        "command": "ds01",
-        "type": 0
+        "name": "php脚本6参数4",
+        "command": "4",
+        "type": 1
       }
     ]
   },
   {
     "name": "GIT",
     "command": " ",
-    "type": 2,
     "children": [
       {
         "name": "本地更新",
-        "command": "cd d:\/dushi\/king\/auto\/config&&git pull&&cd d:\/dushi_backend\/test\/&&git pull&&cd d:\/dushi_backend\/ready\/&&git pull&&cd d:\/dushi\/king\/auto\/protocol\/forBDZC&&git pull",
+        "command": "cd D:\\CSharp\\Helper&&git pull",
         "type": 2
       },
       {
         "name": "全部提交",
-        "command": "cd d:\/dushi_backend\/ready&&git add .&&git commit -m \"解析配置提交\"&&git push origin main",
+        "command": "cd D:\\CSharp\\Helper&&git add .&&git commit -m \"全部修改提交\"&&git push origin main",
         "type": 2
       },
       {
         "name": "配置提交",
-        "command": "cd d:\/dushi_backend\/ready\/config&&git add .&&cd d:\/dushi_backend\/ready\/lang&&git add .&&git commit -m \"解析配置提交\"&&git push origin main",
-        "type": 2
-      },
-      {
-        "name": "协议提交",
-        "command": "cd d:\/dushi\/king\/auto\/protocol\/forBDZC&&git pull&&php createCSData.php&&git add .&&git commit -m \"协议提交\"&&git push origin main&&cd d:\/dushi_backend\/test\/administrator\/extend\/&&php jsonToPHP.php",
+        "command": "cd D:\\CSharp\\Helper\\ScriptManagement\\file&&git add .&&cd D:\\CSharp\\Helper\\ScriptManagement\\Resources&&git add .&&git commit -m \"配置提交\"&&git push origin main",
         "type": 2
       }
     ]
   },
   {
-    "name": "Devop",
-    "command": "php D:\/dushi_backend\/test\/administrator\/phpexcel\/devops.php eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0NDYxIiwidXNlcklkIjo0NDYxLCJyZWFsTmFtZSI6Iui1luWig-aYjiIsIm5hbWUiOiJsYWlqbSIsImNvbXBhbnlJZCI6MTgsImRlcHRJZCI6Nzk2LCJleHAiOjE3MjMxNzQyODF9.0aYO9RFYUEftQVZoC6IhByfcV8lL_GDXbT2xPitWpuE4QtaF4Z98YxSn1XxYY-uDDkwyqCXKxXBNmOfNeF09zw\r",
-    "type": 1,
+    "name": "PHP3",
+    "command": "php D:\\CSharp\\Helper\\ScriptManagement\\file\\php脚本_6.php",
     "children": [
       {
-        "name": "官方预上线",
+        "name": "php脚本6参数1",
         "command": "1",
-        "type": 1
+        "type": 3
       },
       {
-        "name": "繁体预上线",
+        "name": "php脚本6参数2",
         "command": "2",
-        "type": 1
+        "type": 3
       },
       {
-        "name": "韩国预上线",
+        "name": "php脚本6参数3",
         "command": "3",
-        "type": 1
+        "type": 3
       },
       {
-        "name": "日本预上线",
+        "name": "php脚本6参数4",
         "command": "4",
-        "type": 1
-      },
-      {
-        "name": "官方镜像",
-        "command": "5",
-        "type": 1
-      },
-      {
-        "name": "繁体镜像",
-        "command": "6",
-        "type": 1
-      },
-      {
-        "name": "韩国镜像",
-        "command": "7",
-        "type": 1
-      },
-      {
-        "name": "日本镜像",
-        "command": "8",
-        "type": 1
-      },
-      {
-        "name": "十九镜像",
-        "command": "10",
-        "type": 1
-      },
-      {
-        "name": "十九预上线",
-        "command": "9",
-        "type": 1
-      }
-    ]
-  },
-  {
-    "name": "其他脚本",
-    "command": " ",
-    "type": 0,
-    "children": [
-      {
-        "name": "其他脚本1",
-        "command": "",
-        "type": 0
+        "type": 3
       }
     ]
   }

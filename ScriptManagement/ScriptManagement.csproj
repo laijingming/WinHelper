@@ -71,6 +71,7 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -102,7 +103,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\CommandModel.cs" />
+    <Compile Include="Class\CommandCache.cs" />
     <Compile Include="Class\Constants.cs" />
     <Compile Include="Class\CommandLog.cs" />
     <Compile Include="Form1.cs">
@@ -139,10 +140,10 @@
       <DependentUpon>WaitForm1.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
-    <None Include="file\command - 复制.json">
+    <None Include="file\command.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="file\command.json">
+    <None Include="file\command1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -160,7 +161,10 @@
     <ProjectReference Include="..\AJLibrary\AJLibrary.csproj">
       <Project>{2a2e990a-fdd8-4ef8-9c46-46d2d8d83e3b}</Project>
       <Name>AJLibrary</Name>
-      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoLogin\AutoLogin.csproj">
+      <Project>{26b898c8-76a7-4d7d-a80b-2cd981c2ba74}</Project>
+      <Name>AutoLogin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

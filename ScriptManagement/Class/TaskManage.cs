@@ -1,14 +1,10 @@
 ﻿using AJLibrary;
-using DevExpress.XtraBars.Docking;
 using DevExpress.XtraEditors;
-using DevExpress.XtraSplashScreen;
 using DevExpress.XtraTreeList.Nodes;
-using DevExpress.XtraWaitForm;
 using ScriptManagement.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ScriptManagement
 {

@@ -18,12 +18,17 @@ using DevExpress.Utils;
 using System.Collections.ObjectModel;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Tile.ViewInfo;
+using DevExpress.XtraBars.Docking2010.Customization;
+using AutoLogin;
+using System.Text.RegularExpressions;
+using DevExpress.Data.Extensions;
+using static AJLibrary.Cmd;
 
 namespace ScriptManagement
 {
     public partial class Form1 : DevExpress.XtraEditors.XtraForm
     {
-        private string resoure_path = "./file/command - 复制.json";
+        private string resoure_path = "./file/command.json";
         private string layoutFilePath = "./file/dockManagerLayout.xml"; // 保存布局的文件路径
         public TaskManage taskManage = new TaskManage();
         DevTreeListInit treeListInitial;
@@ -231,7 +236,7 @@ namespace ScriptManagement
 
         private void InitTree()
         {
-            List<CommandModel> commandModels = JsonHelper.DeserializeJsonFileToType<List<CommandModel>>(resoure_path);
+            List<CommandModel> commandModels = CommandCache.getIns.data;
             treeList1.DataSource = commandModels;
             treeList1.ChildListFieldName = "children";
 
@@ -284,17 +289,11 @@ namespace ScriptManagement
                 switch (int.Parse(e.Node.GetValue(e.Column).ToString()))
                 {
                     case 0:
+                    case 1:
                         e.Appearance.BackColor = Color.LightBlue;
                         e.Appearance.ForeColor = Color.Black;
                         break;
-                    case 1:
-                        e.Appearance.BackColor = Color.LightGreen;
-                        e.Appearance.ForeColor = Color.Black;
-                        break;
                     case 2:
-                        e.Appearance.BackColor = Color.LightCoral;
-                        e.Appearance.ForeColor = Color.Black;
-                        break;
                     case 3:
                         e.Appearance.BackColor = Color.LightCoral;
                         e.Appearance.ForeColor = Color.Black;
@@ -320,16 +319,12 @@ namespace ScriptManagement
                 switch (val)
                 {
                     case 0:
+                    case 1:
                         e.DisplayText = "异步";
                         break;
-                    case 1:
-                        e.DisplayText = "异步参数";
-                        break;
                     case 2:
-                        e.DisplayText = "阻塞";
-                        break;
                     case 3:
-                        e.DisplayText = "阻塞参数";
+                        e.DisplayText = "阻塞";
                         break;
                     default:
                         e.DisplayText = "未知类型";
@@ -379,6 +374,7 @@ namespace ScriptManagement
 
         public void TaskRun() 
         {
+            isAuth = false;
             taskManage.Run();
             tileView1.RefreshData();
         } 
@@ -438,28 +434,76 @@ namespace ScriptManagement
             }
         }
 
-
-        public void DisplayPartialResult(int status, string partialResult ="", string command = "")
+        bool isAuth = false;//本次执行是否已经获取权限
+        string lastCommand = "";
+        public void DisplayPartialResult(int status, string partialResult = "", string fixedCommand = "")
         {
             if (Cmd.STATUS_START == status)
             {
+                lastCommand = partialResult;
                 DateTime dt = DateTime.Now;
                 memoEdit1.AppendText(dt.ToString() + "： " + partialResult + Environment.NewLine);
             }
             else
             {
-                // 在UI上显示部分结果消息
-                // 例如，可以将消息追加到一个TextBox或ListBox中
-                // 请根据你的UI控件来处理
+                //更新 UI
                 BeginInvoke(new Action(() =>
                 {
                     memoEdit1.AppendText(partialResult.Replace("\n", Environment.NewLine));
+                    
                 }));
+
+                // 处理重试逻辑
+                if (partialResult.Trim() == "获取作业信息失败" && !isAuth)
+                {
+                    isAuth = true;
+                    memoEdit1.AppendText("重新获取权限" + Environment.NewLine);
+                    AutoLogin(lastCommand);
+                }
+
+
             }
-            
         }
+
+
 
         #endregion
 
+        #region 自动登录
+        private void AutoLogin(string lastCommand) 
+        {
+            //FiddlerHelper fiddlerHelper = new FiddlerHelper();
+            //fiddlerHelper.BeforeRequestFun = (RequestInfo info) => {
+
+            //    if (info.url.IndexOf("https://devops-gateway.om.dianhun.cn/DEVOPSEDGE/api/task/getHistoryPage") > -1)
+            //    {
+            //        DisplayPartialResult(1, info.url);
+            //        DisplayPartialResult(1, info.header);
+            //        Match match = Regex.Match(info.header, @"Authorization:\s*Bearer\s*(.+)");
+            //        if (match.Success)
+            //        {
+            //            DisplayPartialResult(1, info.url);
+            //            DisplayPartialResult(1, info.header);
+            //            int index = CommandCache.getIns.data.FindIndex(x => x.name == "Devop");
+            //            CommandModel model = CommandCache.getIns.data[index];
+            //            CommandCache.getIns.data[index].command = model.command.Split(' ')[0] +" "+ match.Groups[1].Value;
+            //            CommandCache.getIns.Save();
+
+            //            string[] lastCommandArr = lastCommand.Split(' ');
+            //            lastCommand = lastCommand.Split(' ')[0] + " " + match.Groups[1].Value + " " + lastCommand.Split(' ')[2];
+            //            Cmd.ExecAsync(lastCommand); // 使用 fixedCommand
+            //        }
+            //    }
+            //};
+            //fiddlerHelper.StartFiddler();
+            //DisplayPartialResult(1, "fiddler is starting...");
+
+            AutologinModel autologinModel = new AutologinModel();
+            DisplayPartialResult(1, autologinModel.RunByName("DEVOPS"));
+
+            //fiddlerHelper.StopFiddler();
+            //DisplayPartialResult(1, "fiddler is stopped");
+        }
+        #endregion
     }
 }

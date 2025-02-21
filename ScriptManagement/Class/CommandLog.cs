@@ -55,4 +55,26 @@ namespace ScriptManagement.Class
             getIns.MarkUpdated();
         }
     }
+    public class CommandLogModel
+    {
+        /// <summary>
+        /// 展示用名字如果有就显示
+        /// </summary>
+        public string nickname { get; set; }
+
+        public string name { get; set; }
+        /// <summary>
+        /// 执行次数
+        /// </summary>
+        public int num { get; set; }
+        /// <summary>
+        /// 置顶
+        /// </summary>
+        public int to_up { get; set; }
+
+        /// <summary>
+        /// 默认值
+        /// </summary>
+        public long time { get; set; } = Time.Now();
+    }
 }
