@@ -33,39 +33,42 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>1740970897.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.BonusSkins.v21.2">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Data.Desktop.v21.2">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Data.v21.2">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Images.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Utils.v21.2">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Sparkline.v21.2.Core">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.XtraBars.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.XtraEditors.v21.2">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Printing.v21.2.Core">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.XtraLayout.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.XtraNavBar.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -113,6 +116,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AJLibrary\AJLibrary.csproj">
+      <Project>{2a2e990a-fdd8-4ef8-9c46-46d2d8d83e3b}</Project>
+      <Name>AJLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoLogin\AutoLogin.csproj">
+      <Project>{26b898c8-76a7-4d7d-a80b-2cd981c2ba74}</Project>
+      <Name>AutoLogin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImageToIco\ImageToIco.csproj">
       <Project>{a4e92abc-18c2-4346-ac0c-e937ddd567c9}</Project>
       <Name>ImageToIco</Name>
@@ -124,9 +135,15 @@
       <Aliases>global</Aliases>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="1740970897.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>move "DevExpress.*.dll" "devdlls\" 
+    <PostBuildEvent>if not exist "devdlls" md "devdlls"
+
+if not exist "libs" md "libs"
+move "DevExpress.*.dll" "devdlls\" 
 move "*.dll" "libs\"
 del /q "*.xml*"
 rd /s /q "ru" "de" "es" "ja"

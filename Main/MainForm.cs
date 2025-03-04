@@ -5,33 +5,32 @@ using System.Drawing;
 using System.Windows.Forms;
 using DevExpress.XtraBars.Docking;
 using DevExpress.XtraBars.Docking2010.Views;
+using DevExpress.XtraBars.Docking2010;
 
 namespace Main
 {
     public partial class MainForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        private Dictionary<string, Func<XtraForm>> form_dic = new Dictionary<string, Func<XtraForm>>()
-        {
-            { "脚本管理",()=>new ScriptManagement.Form1() },
-            { "图片转ICO", ()=>new ImageToIco.Form1() }
-        };
-
         TileDataSocure dataSocure { get; set; }
         public MainForm()
         {
             InitializeComponent();
-            dataSocure = new TileDataSocure();
+            dataSocure = new TileDataSocure(this);
             dockPanel1.KeyDown += XtraForm2_KeyDown;
-            tabbedView1.DocumentClosing += TabbedView1_DocumentClosing; ;
+            tabbedView1.DocumentClosing += TabbedView1_DocumentClosing;
+            this.FormClosing += MainForm_FormClosing;
             this.KeyPreview = true; // 确保窗体能够捕获键盘事件
             InitTiles();
         }
 
-        
-
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            CloseAllDocument();
+        }
 
         private void XtraForm2_Load(object sender, EventArgs e)
         {
+
         }
 
         #region event 
@@ -99,6 +98,18 @@ namespace Main
             }
         }
 
+        private void CloseAllDocument() 
+        {
+            for (int i = 0; i < Application.OpenForms.Count; i++)
+            {
+                XtraForm xtraForm = (XtraForm)Application.OpenForms[i];
+                if (xtraForm != this)
+                {
+                    xtraForm.Close(); // 关闭窗体
+                    xtraForm.Dispose(); // 释放资源
+                }
+            }
+        }
 
         /// <summary>
         /// 关闭当前文档
@@ -205,6 +216,7 @@ namespace Main
         #region createform
         private void InitTiles()
         {
+            tileControl1.LookAndFeel.UseDefaultLookAndFeel = true;
             TileGroup tileGroup = new TileGroup();
             foreach (TileTpl tileTpl in dataSocure.data)
             {
@@ -221,46 +233,48 @@ namespace Main
         private TileItem CreateTileItemElement(TileTpl tileTpl)
         {
             TileItem tile = new TileItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             TileItemElement tileItemElement1 = new TileItemElement();
-            TileItemElement tileItemElement2 = new TileItemElement();
-            tileItemElement1.Appearance.Hovered.Font = new System.Drawing.Font("Segoe UI Light", 17F);
-            tileItemElement1.Appearance.Hovered.Options.UseFont = true;
-            tileItemElement1.Appearance.Hovered.Options.UseTextOptions = true;
-            tileItemElement1.Appearance.Hovered.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
-            tileItemElement1.Appearance.Hovered.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            tileItemElement1.Appearance.Normal.Font = new System.Drawing.Font("Segoe UI Light", 17F);
-            tileItemElement1.Appearance.Normal.Options.UseFont = true;
-            tileItemElement1.Appearance.Normal.Options.UseTextOptions = true;
-            tileItemElement1.Appearance.Normal.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
-            tileItemElement1.Appearance.Normal.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            tileItemElement1.Appearance.Selected.Font = new System.Drawing.Font("Segoe UI Light", 17F);
-            tileItemElement1.Appearance.Selected.Options.UseFont = true;
-            tileItemElement1.Appearance.Selected.Options.UseTextOptions = true;
-            tileItemElement1.Appearance.Selected.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
-            tileItemElement1.Appearance.Selected.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            tileItemElement1.MaxWidth = 160;
             tileItemElement1.Text = tileTpl.name;
-            tileItemElement1.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.Manual;
-            tileItemElement1.TextLocation = new System.Drawing.Point(75, 0);
-            if (tileTpl.iconPath != null)
-            {
-                tileItemElement2.ImageOptions.Image = ExtractAppIcon(tileTpl.iconPath).ToBitmap();
-            }
-            else
-            {
-                tileItemElement2.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("resource.Image")));
-            }
-            tileItemElement2.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.Manual;
-            tileItemElement2.ImageOptions.ImageLocation = new System.Drawing.Point(4, 8);
-            tileItemElement2.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.ZoomOutside;
-            tileItemElement2.ImageOptions.ImageSize = new System.Drawing.Size(64, 64);
+            tileItemElement1.TextAlignment = TileItemContentAlignment.MiddleCenter;
             tile.Elements.Add(tileItemElement1);
-            tile.Elements.Add(tileItemElement2);
-            tile.Appearance.BackColor = Color.FromArgb(140, 140, 140);
-            tile.Appearance.BorderColor = Color.FromArgb(140, 140, 140);
-            tile.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
+            tile.ItemSize = TileItemSize.Default;
             return tile;
+
+            //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            //TileItemElement tileItemElement2 = new TileItemElement();
+            //tileItemElement1.Appearance.Hovered.Font = new System.Drawing.Font("Segoe UI Light", 17F);
+            //tileItemElement1.Appearance.Hovered.Options.UseFont = true;
+            //tileItemElement1.Appearance.Hovered.Options.UseTextOptions = true;
+            //tileItemElement1.Appearance.Hovered.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
+            //tileItemElement1.Appearance.Hovered.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            //tileItemElement1.Appearance.Normal.Font = new System.Drawing.Font("Segoe UI Light", 17F);
+            //tileItemElement1.Appearance.Normal.Options.UseFont = true;
+            //tileItemElement1.Appearance.Normal.Options.UseTextOptions = true;
+            //tileItemElement1.Appearance.Normal.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
+            //tileItemElement1.Appearance.Normal.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            //tileItemElement1.Appearance.Selected.Font = new System.Drawing.Font("Segoe UI Light", 17F);
+            //tileItemElement1.Appearance.Selected.Options.UseFont = true;
+            //tileItemElement1.Appearance.Selected.Options.UseTextOptions = true;
+            //tileItemElement1.Appearance.Selected.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
+            //tileItemElement1.Appearance.Selected.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            //tileItemElement1.MaxWidth = 160;
+
+            //tileItemElement1.TextLocation = new System.Drawing.Point(75, 0);
+            //if (tileTpl.iconPath != null)
+            //{
+            //    tileItemElement2.ImageOptions.Image = ExtractAppIcon(tileTpl.iconPath).ToBitmap();
+            //}
+            //else
+            //{
+            //    tileItemElement2.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("resource.Image")));
+            //}
+            //tileItemElement2.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.Manual;
+            //tileItemElement2.ImageOptions.ImageLocation = new System.Drawing.Point(4, 8);
+            //tileItemElement2.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.ZoomOutside;
+            //tileItemElement2.ImageOptions.ImageSize = new System.Drawing.Size(64, 64);
+            //tile.Elements.Add(tileItemElement2);
+            //tile.Appearance.BackColor = Color.FromArgb(140, 140, 140);
+            //tile.Appearance.BorderColor = Color.FromArgb(140, 140, 140);
         }
 
         public void ShowFormByName(TileTpl tileTpl)
@@ -278,7 +292,7 @@ namespace Main
                 }
             }
 
-            XtraForm frm = tileTpl.NewForm();// 实例化窗体
+            XtraForm frm = tileTpl.newForm();// 实例化窗体
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
             frm.Dock = DockStyle.Fill;

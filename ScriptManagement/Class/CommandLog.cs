@@ -15,7 +15,24 @@ namespace ScriptManagement.Class
         {
         }
 
-        public static CommandLog getIns => SingletonHelper<CommandLog>.GetInstance();
+        public static CommandLog getIns => Master.getModel<CommandLog>();
+
+        public void RunLog(string key_name) 
+        {
+            int index = data.FindIndex(x => x.name == key_name);
+            if (index != -1)
+            {
+                data[index].num++;
+            }
+            else
+            {
+                CommandLogModel commandLogModel = new CommandLogModel();
+                commandLogModel.name = key_name;
+                commandLogModel.num++;
+                data.Add(commandLogModel);
+            }
+            MarkUpdated();
+        }
 
         /// <summary>
         /// 设置置顶

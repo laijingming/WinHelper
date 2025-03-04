@@ -161,27 +161,12 @@ namespace ScriptManagement
                 //不记录单条命令
                 return;
             }
-
             string key_name="";
             foreach (CommandModel item in list)
             {
                 key_name += item.name+"、";
             }
-            key_name = key_name.Trim('、');
-
-            int index = CommandLog.getIns.data.FindIndex(x => x.name == key_name);
-            if (index!=-1)
-            {
-                CommandLog.getIns.data[index].num++;
-            }
-            else
-            {
-                CommandLogModel commandLogModel = new CommandLogModel();
-                commandLogModel.name = key_name;
-                commandLogModel.num++;
-                CommandLog.getIns.data.Add(commandLogModel);
-            }
-            CommandLog.getIns.MarkUpdated();
+            CommandLog.getIns.RunLog(key_name.Trim('、'));
         }
 
         private string GetCommond(CommandModel item)

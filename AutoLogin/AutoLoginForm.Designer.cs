@@ -56,7 +56,7 @@
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2,
             this.repositoryItemHyperLinkEdit1});
-            this.gridControl1.Size = new System.Drawing.Size(737, 449);
+            this.gridControl1.Size = new System.Drawing.Size(737, 454);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.cardView1});
@@ -84,21 +84,19 @@
             // 
             this.gridColumn1.FieldName = "name";
             this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 0;
             // 
             // gridColumn2
             // 
             this.gridColumn2.FieldName = "account";
             this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 0;
             // 
             // gridColumn3
             // 
             this.gridColumn3.ColumnEdit = this.repositoryItemTextEdit2;
             this.gridColumn3.FieldName = "password";
             this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 1;
             // 
             // repositoryItemTextEdit2
             // 
@@ -112,7 +110,7 @@
             this.gridColumn5.FieldName = "url";
             this.gridColumn5.Name = "gridColumn5";
             this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 2;
+            this.gridColumn5.VisibleIndex = 1;
             // 
             // repositoryItemHyperLinkEdit1
             // 
@@ -135,9 +133,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(737, 449);
+            this.ClientSize = new System.Drawing.Size(737, 454);
             this.Controls.Add(this.gridControl1);
-            this.IconOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("AutoLoginForm.IconOptions.SvgImage")));
+            this.IconOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("AutoLoginForm.IconOptions.LargeImage")));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "AutoLoginForm";
             this.Text = "一键登录";

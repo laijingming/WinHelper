@@ -10,7 +10,7 @@ namespace AJLibrary
     {
         public const string comment = "基础配置";
 
-        public const string FILENAME = "file/config";//文件名
+        public const string FILENAME = "./file/config.json";//文件名
 
         public ConfigCache() : base(FILENAME)
         {

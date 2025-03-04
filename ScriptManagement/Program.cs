@@ -26,7 +26,7 @@ namespace ScriptManagement
 
         private static void Application_ApplicationExit(object sender, EventArgs e)
         {
-            CommandLog.getIns.Save();
+            CommandLog.getIns.SaveCacheToFile();
         }
     }
 }

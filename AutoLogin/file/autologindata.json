@@ -1,0 +1,28 @@
+[
+  {
+    "name": "DEVOPS",
+    "account": "",
+    "password": "",
+    "url": "https://devops.om.dianhun.cn/games/ZCXM/task",
+    "fiddlerUrl": "https://devops-gateway.om.dianhun.cn/DEVOPSEDGE/api/task/getAll",
+    "unreadButtonX": 182,
+    "unreadButtonY": 58,
+    "firstChatX": 211,
+    "firstChatY": 111,
+    "allButtonX": 100,
+    "allButtonY": 58
+  },
+  {
+    "name": "魂淡中台系统",
+    "account": "",
+    "password": "",
+    "url": "https://hd.om.dianhun.cn/",
+    "catchUrl": "",
+    "unreadButtonX": 182,
+    "unreadButtonY": 58,
+    "firstChatX": 211,
+    "firstChatY": 111,
+    "allButtonX": 100,
+    "allButtonY": 58
+  }
+]

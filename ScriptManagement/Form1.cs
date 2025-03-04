@@ -12,51 +12,50 @@ using DevExpress.Utils.Menu;
 using DevExpress.XtraTreeList.Menu;
 using ScriptManagement.Class;
 using DevExpress.XtraGrid.Views.Tile;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Linq;
 using DevExpress.Utils;
-using System.Collections.ObjectModel;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Tile.ViewInfo;
-using DevExpress.XtraBars.Docking2010.Customization;
 using AutoLogin;
 using System.Text.RegularExpressions;
-using DevExpress.Data.Extensions;
 using static AJLibrary.Cmd;
 
 namespace ScriptManagement
 {
-    public partial class Form1 : DevExpress.XtraEditors.XtraForm
+    public partial class Form1 : XtraForm
     {
-        private string resoure_path = "./file/command.json";
         private string layoutFilePath = "./file/dockManagerLayout.xml"; // 保存布局的文件路径
+        FiddlerHelper fiddlerHelper = FiddlerHelper.getIns;
+        AutologinModel autologinModel = new AutologinModel();
         public TaskManage taskManage = new TaskManage();
         DevTreeListInit treeListInitial;
+        DomainModel domain;
+
         public Form1()
         {
             InitializeComponent();
-            treeListInitial = new DevTreeListInit(treeList1);
             Cmd.displayPartialResult = DisplayPartialResult;
-            InitTree();
-            InitGrid();
-            InitMemo();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
             // 检查是否有保存的布局文件
             if (File.Exists(layoutFilePath))
             {
                 try
                 {
                     // 从 XML 文件中恢复布局
-                    //dockManager1.RestoreLayoutFromXml(layoutFilePath);
+                    dockManager1.RestoreLayoutFromXml(layoutFilePath);
                 }
                 catch (Exception ex)
                 {
                     XtraMessageBox.Show("无法加载布局：" + ex.Message);
                 }
             }
+            InitTree();
+            InitGrid();
+            InitMemo();
+            InitFiddler();
+        }
+        #region 事件
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
         }
         private void Form1_Shown(object sender, EventArgs e)
         {
@@ -65,17 +64,20 @@ namespace ScriptManagement
 
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        {  
             try
             {
                 // 将当前布局保存为 XML
                 dockManager1.SaveLayoutToXml(layoutFilePath);
+                fiddlerHelper.CloseFiddler();
+                autologinModel.CloseDriver();
             }
             catch (Exception ex)
             {
                 XtraMessageBox.Show("无法保存布局：" + ex.Message);
             }
         }
+        #endregion
 
         #region tileGrid
 
@@ -236,6 +238,7 @@ namespace ScriptManagement
 
         private void InitTree()
         {
+            treeListInitial = new DevTreeListInit(treeList1);
             List<CommandModel> commandModels = CommandCache.getIns.data;
             treeList1.DataSource = commandModels;
             treeList1.ChildListFieldName = "children";
@@ -438,30 +441,38 @@ namespace ScriptManagement
         string lastCommand = "";
         public void DisplayPartialResult(int status, string partialResult = "", string fixedCommand = "")
         {
-            if (Cmd.STATUS_START == status)
+            try
             {
-                lastCommand = partialResult;
+                if (Cmd.STATUS_START == status)
+                {
+                    lastCommand = partialResult;
+                }
+
                 DateTime dt = DateTime.Now;
-                memoEdit1.AppendText(dt.ToString() + "： " + partialResult + Environment.NewLine);
-            }
-            else
-            {
                 //更新 UI
                 BeginInvoke(new Action(() =>
                 {
-                    memoEdit1.AppendText(partialResult.Replace("\n", Environment.NewLine));
-                    
+                    string newPartialResult = partialResult.Replace("\r\n", Environment.NewLine);
+                    if (newPartialResult == partialResult)
+                    {
+                        newPartialResult += Environment.NewLine;
+                    }
+                    memoEdit1.AppendText(dt.ToString() + "： " + newPartialResult);
+
+                    // 处理重试逻辑
+                    if (partialResult.IndexOf("作业不存在") > -1 && !isAuth)
+                    {
+                        isAuth = true;
+                        AutoLoginAsync(lastCommand);
+                    }
+
                 }));
 
-                // 处理重试逻辑
-                if (partialResult.Trim() == "获取作业信息失败" && !isAuth)
-                {
-                    isAuth = true;
-                    memoEdit1.AppendText("重新获取权限" + Environment.NewLine);
-                    AutoLogin(lastCommand);
-                }
-
-
+               
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message);
             }
         }
 
@@ -470,40 +481,51 @@ namespace ScriptManagement
         #endregion
 
         #region 自动登录
-        private void AutoLogin(string lastCommand) 
+        public  void AutoLoginAsync(string lastCommand)
         {
-            //FiddlerHelper fiddlerHelper = new FiddlerHelper();
-            //fiddlerHelper.BeforeRequestFun = (RequestInfo info) => {
+            fiddlerHelper.StartFiddler();
+            DisplayPartialResult(STATUS_RUNNING, "开始捕获auth...");
+            DisplayPartialResult(STATUS_RUNNING, autologinModel.Run(domain));
+            DisplayPartialResult(STATUS_RUNNING, "捕获结束");
+            fiddlerHelper.StopFiddler();// 停止 Fiddler 捕获
 
-            //    if (info.url.IndexOf("https://devops-gateway.om.dianhun.cn/DEVOPSEDGE/api/task/getHistoryPage") > -1)
-            //    {
-            //        DisplayPartialResult(1, info.url);
-            //        DisplayPartialResult(1, info.header);
-            //        Match match = Regex.Match(info.header, @"Authorization:\s*Bearer\s*(.+)");
-            //        if (match.Success)
-            //        {
-            //            DisplayPartialResult(1, info.url);
-            //            DisplayPartialResult(1, info.header);
-            //            int index = CommandCache.getIns.data.FindIndex(x => x.name == "Devop");
-            //            CommandModel model = CommandCache.getIns.data[index];
-            //            CommandCache.getIns.data[index].command = model.command.Split(' ')[0] +" "+ match.Groups[1].Value;
-            //            CommandCache.getIns.Save();
-
-            //            string[] lastCommandArr = lastCommand.Split(' ');
-            //            lastCommand = lastCommand.Split(' ')[0] + " " + match.Groups[1].Value + " " + lastCommand.Split(' ')[2];
-            //            Cmd.ExecAsync(lastCommand); // 使用 fixedCommand
-            //        }
-            //    }
-            //};
-            //fiddlerHelper.StartFiddler();
-            //DisplayPartialResult(1, "fiddler is starting...");
-
-            AutologinModel autologinModel = new AutologinModel();
-            DisplayPartialResult(1, autologinModel.RunByName("DEVOPS"));
-
-            //fiddlerHelper.StopFiddler();
-            //DisplayPartialResult(1, "fiddler is stopped");
+            CommandModel model = CommandCache.getIns.GetDevop();
+            if (model !=null)
+            {
+                //重新执行命令
+                string[] lastCommandParts = lastCommand.Split(' ');
+                ExecAsync(model.command+" "+ lastCommandParts[lastCommandParts.Length - 1]);
+            }
         }
         #endregion
+
+        #region fiddler
+
+        private void InitFiddler() 
+        {
+            domain = autologinModel.GetDomainByName("DEVOPS");
+            fiddlerHelper.BeforeRequestFun = (info) =>
+            {
+                // 如果匹配目标 URL
+                if (info.url.IndexOf(domain.fiddlerUrl) > -1)
+                {
+                    Match match = Regex.Match(info.header, @"Authorization:\s*Bearer\s*(.+)");
+                    if (match.Success)
+                    {
+                        // 输出日志
+                        //DisplayPartialResult(STATUS_RUNNING, "匹配到目标请求：" + info.url);
+                        //DisplayPartialResult(STATUS_RUNNING, "匹配到Header：" + info.header);
+
+                        // 更新缓存中的命令
+                        CommandCache.getIns.SaveDevop(match.Groups[1].Value);
+                        DisplayPartialResult(STATUS_RUNNING, "保存auth成功");
+                    }
+                }
+            };
+        }
+
+       
+        #endregion
+
     }
 }

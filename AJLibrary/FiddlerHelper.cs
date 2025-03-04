@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AJLibrary
 {
@@ -15,14 +16,18 @@ namespace AJLibrary
         public BeforeResponseHandle BeforeRequestFun;
         public delegate void BeforeResponseHandle(RequestInfo info);
 
+        public static FiddlerHelper getIns => Master.getModel<FiddlerHelper>();
+
         public FiddlerHelper() 
         {   
             key = ConfigCache.getIns.Get("fiddler.certmaker.bc.key");
             cert = ConfigCache.getIns.Get("fiddler.certmaker.bc.cert");
+            Install();
         }
 
         public void Install()
-        {
+        {   
+            //设置证书配置（确保HTTPS解密正常）
             if (!string.IsNullOrEmpty(key))
             {
                 FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.key", key);
@@ -31,11 +36,27 @@ namespace AJLibrary
             // 检查是否已存在根证书
             if (!CertMaker.rootCertExists())
             {
-                // 创建和信任根证书
+                // 创建根证书
                 CertMaker.createRootCert();
+                // 信任根证书
                 CertMaker.trustRootCert();
-                ConfigCache.getIns.Set("fiddler.certmaker.bc.cert", FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.cert", null));
-                ConfigCache.getIns.Set("fiddler.certmaker.bc.key", FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.key", null));
+
+                // 再次检测根证书是否成功安装
+                if (!CertMaker.rootCertExists())
+                {
+                    // 如果依然不存在，提示用户手动安装
+                    MessageBox.Show("自动安装根证书失败，请手动导入 FiddlerRoot.cer 到“受信任的根证书颁发机构”。",
+                        "证书安装失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    // 保存证书配置到缓存中，便于下次使用
+                    ConfigCache.getIns.Set("fiddler.certmaker.bc.cert",
+                        FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.cert", null));
+                    ConfigCache.getIns.Set("fiddler.certmaker.bc.key",
+                        FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.key", null));
+                    ConfigCache.getIns.SaveCacheToFile();
+                }
             }
         }
 
@@ -84,11 +105,15 @@ namespace AJLibrary
             if (FiddlerApplication.IsStarted())
             {
                 FiddlerApplication.Shutdown();
-                if (FiddlerApplication.oProxy != null)
-                {
-                    if (FiddlerApplication.oProxy.IsAttached)
-                        FiddlerApplication.oProxy.Detach();
-                }
+            }
+        }
+        
+        public void CloseFiddler() 
+        {
+            StopFiddler();
+            if (FiddlerApplication.oProxy != null && FiddlerApplication.oProxy.IsAttached)
+            {
+                FiddlerApplication.oProxy.Detach();
             }
         }
 
@@ -97,13 +122,20 @@ namespace AJLibrary
             //if (oSession.RequestMethod == "POST" || oSession.RequestMethod == "GET")
             if (true)
             {
-                string url = oSession.fullUrl;
-                BeforeRequestFun(new RequestInfo() { 
-                    url= oSession.fullUrl ,
-                    header= oSession.RequestHeaders.ToString() ,
-                    body= oSession.GetRequestBodyAsString() }
-                );
+                //Console.WriteLine(oSession.fullUrl);
+                // 调用回调函数
+                BeforeRequestFun?.Invoke(new RequestInfo()
+                {
+                    url = oSession.fullUrl,
+                    header = oSession.RequestHeaders.ToString(),
+                    body = oSession.GetRequestBodyAsString()
+                });
             }
+        }
+
+        public void Save() 
+        {
+            CloseFiddler();
         }
     }
 }

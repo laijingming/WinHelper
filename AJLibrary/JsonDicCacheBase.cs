@@ -95,7 +95,7 @@ namespace AJLibrary
         }
 
 
-        private void SaveCacheToFile()
+        public void SaveCacheToFile()
         {
             try
             {

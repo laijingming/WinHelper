@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FiddlerCore4">
-      <HintPath>..\..\devop\DXApplication1\bin\Debug\FiddlerCore4.dll</HintPath>
+    <Reference Include="FiddlerCore4, Version=4.6.2.0, Culture=neutral, PublicKeyToken=67cb91587178ac5a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\devop\packages\FiddlerCore.4.6.2.0\lib\net40\FiddlerCore4.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -59,6 +60,7 @@
     <Compile Include="JsonDicCacheBase.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="Cmd.cs" />
+    <Compile Include="Master.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingletonHelper.cs" />
     <Compile Include="Time.cs" />

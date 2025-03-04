@@ -1,5 +1,7 @@
 ﻿using AJLibrary;
+using DevExpress.XtraBars.Docking2010.Customization;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace ScriptManagement.Class
 {
@@ -13,7 +15,32 @@ namespace ScriptManagement.Class
         {
         }
 
-        public static CommandCache getIns => SingletonHelper<CommandCache>.GetInstance();
+        public static CommandCache getIns => Master.getModel<CommandCache>();
+
+        public void SaveDevop(string auth) 
+        {
+            //保存auth
+            CommandModel model = GetDevop();
+            if (model!=null)
+            {
+                string[] parts = model.command.Split(' ');
+                parts[parts.Length - 1] = auth;
+                model.command = string.Join(" ", parts);
+                MarkUpdated();
+            }
+        }
+
+        public CommandModel GetDevop() 
+        {
+            // 重新执行命令
+            int index = data.FindIndex(x => x.name == "Devop");
+            if (index >= 0)
+            {
+               return data[index];
+            }
+            return null;
+        }
+
     }
 
     public class CommandModel

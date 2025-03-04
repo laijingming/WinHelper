@@ -1,39 +1,33 @@
 ﻿using AJLibrary;
-using DevExpress.Utils;
-using DevExpress.Utils.Automation;
-using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Filtering;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraSplashScreen;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Automation;
 using System.Windows.Forms;
+using static DevExpress.Utils.Drawing.Helpers.NativeMethods;
 
 namespace AutoLogin
 {
     public partial class AutoLoginForm : DevExpress.XtraEditors.XtraForm
     {
-        AutologinModel autologinModel = null;
+        AutologinModel autologinModel = new AutologinModel();
         public AutoLoginForm()
         {
             InitializeComponent();
             InitData();
-            autologinModel  = new AutologinModel();
+            this.FormClosing += AutoLoginForm_FormClosing;
+        }
+
+        private void AutoLoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            autologinModel.CloseDriver();
         }
 
         private void InitData()
@@ -49,8 +43,11 @@ namespace AutoLogin
         /// <param name="e"></param>
         private void cardView1_DoubleClick(object sender, EventArgs e)
         {
+            SplashScreenManager.ShowDefaultWaitForm("正在登录", "请等待...");
             autologinModel.Run((DomainModel)cardView1.GetFocusedRow());
+            SplashScreenManager.CloseForm();
         }
+
     }
     public class AutologinModel
     {   
@@ -58,12 +55,27 @@ namespace AutoLogin
 
         public AutologinModel() 
         {
-            data = JsonHelper.DeserializeJsonFileToType<List<DomainModel>>("./cfg/data.json");
+            data = JsonHelper.DeserializeJsonFileToType<List<DomainModel>>("./file/autologindata.json");
+        }
+
+        public DomainModel GetDomainByName(string name) 
+        {
+            return data.Find(x => x.name == name);
         }
 
         public string RunByName(string name)
         {
             return Run(data.Find(x => x.name == name));
+        }
+
+        public void CloseDriver() 
+        {
+            if (driver!=null)
+            {
+                driver.Quit();
+                driver.Dispose();
+                driver = null;
+            }
         }
 
 
@@ -83,9 +95,7 @@ namespace AutoLogin
                 catch
                 {
                     // 如果捕获到异常，则认为 driver 无效，置空以便重新初始化
-                    driver.Quit();
-                    driver.Dispose();
-                    driver = null;
+                    CloseDriver();
                 }
             }
             ChromeOptions options = new ChromeOptions();
@@ -184,18 +194,19 @@ namespace AutoLogin
                 //等待输入框加载
                 var usernameField = FindElement(By.XPath("//input[@placeholder='输入账号或手机号码']"));
                 var passwordField = FindElement(By.XPath("//input[@placeholder='输入密码']"));
-                var captchaField = FindElement(By.XPath("//input[@placeholder='输入验证码']"));
-                var captchaButton = FindElement(By.ClassName("input-link"));
+                var captchaField = FindElement(By.XPath("//input[@placeholder='输入验证码']"),false);
 
                 //填充数据
                 usernameField.SendKeys(domain.account);
                 passwordField.SendKeys(domain.password);
 
-                //发送验证码
-                captchaButton.Click();
-
-                //获取验证码，并输入
-                captchaField.SendKeys(GetDingTalkNotification());
+                if (captchaField != null)
+                {
+                    //发送验证码
+                    FindElement(By.ClassName("input-link")).Click();
+                    //获取验证码，并输入
+                    captchaField.SendKeys(GetDingTalkNotification(domain));
+                }
 
                 //点击登录按钮
                 var loginButton = FindElement(By.CssSelector("button.submit"));
@@ -216,18 +227,16 @@ namespace AutoLogin
             }
             finally
             {
-                // 10. 关闭浏览器（可选）
+                //关闭浏览器（可选）
                 //driver.Quit();
             }
         }
 
-
-
-        private IWebElement FindElement(By by)
+        private IWebElement FindElement(By by, bool isTryMoreTimes = true)
         {
             IWebElement input = null;
             int num = 0;
-            while (input == null && num < 5)
+            while (input == null && num < 2)
             {
                 try
                 {
@@ -238,34 +247,38 @@ namespace AutoLogin
                     num++;
                     Thread.Sleep(1000);
                 }
+                if (!isTryMoreTimes)
+                {
+                    break;
+                }
             }
             return input;
         }
 
-
         #region Windows API 导入
         [DllImport("user32.dll")]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(IntPtr hWnd);
-
         [DllImport("user32.dll")]
         static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
         [DllImport("user32.dll")]
         static extern bool SetCursorPos(int X, int Y);
-
         [DllImport("user32.dll")]
         static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
 
         #region 鼠标事件常量
-        const int MOUSEEVENTF_LEFTDOWN = 0x0002;
-        const int MOUSEEVENTF_LEFTUP = 0x0004;
-        const int SW_SHOWMAXIMIZED = 3;
+        private const int MOUSEEVENTF_LEFTDOWN = 0x0002;
+        private const int MOUSEEVENTF_LEFTUP = 0x0004;
+        private const int SW_SHOWNORMAL = 1;
+        private const int SW_SHOWMINIMIZED = 2;
+        private const int SW_SHOWMAXIMIZED = 3;
         #endregion
 
         #region 窗口信息结构体
@@ -277,57 +290,100 @@ namespace AutoLogin
             public int Right;
             public int Bottom;
         }
-        #endregion
 
-        private IntPtr GetDingTalk()
+        [Serializable]
+        [StructLayout(LayoutKind.Sequential)]
+        private struct WINDOWPLACEMENT
         {
-            //查找钉钉
+            public int length;
+            public int flags;
+            public int showCmd;
+            public Point ptMinPosition;
+            public Point ptMaxPosition;
+            public RECT rcNormalPosition;
+        }
+        #endregion
+        private bool IsWindowMaximized(IntPtr hWnd)
+        {
+            WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
+            placement.length = Marshal.SizeOf(placement);
+            GetWindowPlacement(hWnd, ref placement);
+
+            // 判断窗口是否已经最大化
+            return placement.showCmd == SW_SHOWMAXIMIZED;
+        }
+        private bool IsWindowForeground(IntPtr hWnd)
+        {
+            // 获取当前前台窗口的句柄
+            IntPtr foregroundWindow = GetForegroundWindow();
+
+            // 判断目标窗口是否已经是前台窗口
+            return foregroundWindow == hWnd;
+        }
+
+        private IntPtr GetDingTalk(DomainModel domain)
+        {
+            // 查找“钉钉”窗口（窗口标题为“钉钉”）
             IntPtr hWnd = FindWindow(null, "钉钉");
             if (hWnd == IntPtr.Zero)
             {
                 Console.WriteLine("未找到钉钉窗口");
                 return IntPtr.Zero;
             }
-            //最大化窗口
-            ShowWindow(hWnd, SW_SHOWMAXIMIZED);
-            SetForegroundWindow(hWnd);
-            Thread.Sleep(1000); // 等待窗口最大化
 
-            //获取窗口坐标
-            GetWindowRect(hWnd, out RECT rect);
-            Console.WriteLine($"钉钉窗口位置: 左上({rect.Left},{rect.Top}), 右下({rect.Right},{rect.Bottom})");
+            // 保存当前鼠标位置，确保在方法结束时恢复
+            Point originalCursor = Cursor.Position;
 
+            try
+            {
+                // 判断是否需要最大化窗口
+                if (!IsWindowMaximized(hWnd))
+                {
+                    ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+                }
 
-            // 坐标调整，根据实际情况填写（你提供具体坐标）
-            int unreadButtonX = rect.Left + 182; // 未读按钮相对位置
-            int unreadButtonY = rect.Top + 58;
+                // 判断是否需要将窗口置于前台
+                if (!IsWindowForeground(hWnd))
+                {
+                    SetForegroundWindow(hWnd);
+                }
 
-            int firstChatX = rect.Left + 211; // 第一个未读会话相对位置
-            int firstChatY = rect.Top + 111;
+                Thread.Sleep(1000); // 等待窗口最大化稳定
 
-            int allButtonX = rect.Left + 100; // 全部按钮相对位置
-            int allButtonY = rect.Top + 58;
+                // 获取窗口坐标
+                GetWindowRect(hWnd, out RECT rect);
+                Console.WriteLine($"钉钉窗口位置: 左上({rect.Left},{rect.Top}), 右下({rect.Right},{rect.Bottom})");
 
-            int currentX = Cursor.Position.X;//保存当前鼠标坐标
-            int currentY = Cursor.Position.Y;
+                // 计算各个按钮的绝对坐标（相对于屏幕）
+                int unreadButtonX = rect.Left + domain.unreadButtonX; // 未读按钮的 X 坐标
+                int unreadButtonY = rect.Top + domain.unreadButtonY;   // 未读按钮的 Y 坐标
 
+                int firstChatX = rect.Left + domain.firstChatX; // 第一个未读会话的 X 坐标
+                int firstChatY = rect.Top + domain.firstChatY;   // 第一个未读会话的 Y 坐标
 
+                int allButtonX = rect.Left + domain.allButtonX; // 全部按钮的 X 坐标
+                int allButtonY = rect.Top + domain.allButtonY;   // 全部按钮的 Y 坐标
 
-            //模拟鼠标点击未读按钮
-            ClickMouse(unreadButtonX, unreadButtonY);
-            Thread.Sleep(4000);
+                // 模拟鼠标点击操作
+                // 点击未读按钮
+                ClickMouse(unreadButtonX, unreadButtonY);
+                Thread.Sleep(4000); // 等待会话列表加载
 
-            //模拟鼠标点击第一个未读会话
-            ClickMouse(firstChatX, firstChatY);
-            Thread.Sleep(500);
+                // 点击第一个未读会话
+                ClickMouse(firstChatX, firstChatY);
+                Thread.Sleep(500);
 
-            //模拟鼠标点击全部按钮
-            ClickMouse(allButtonX, allButtonY);
+                // 点击“全部”按钮
+                ClickMouse(allButtonX, allButtonY);
 
-            //还原鼠标位置
-            SetCursorPos(currentX, currentY);
-
-            return hWnd;
+                // 返回钉钉窗口句柄
+                return hWnd;
+            }
+            finally
+            {
+                // 无论操作是否成功，都恢复鼠标到原来的位置
+                SetCursorPos(originalCursor.X, originalCursor.Y);
+            }
         }
 
         /// <summary>
@@ -347,11 +403,10 @@ namespace AutoLogin
         /// </summary>
         /// <param name="dingTalk"></param>
         /// <returns></returns>
-        private string GetDingTalkNotification()
+        private string GetDingTalkNotification(DomainModel domain)
         {
-            
             tryNum++;
-            AutomationElement dingTalk = AutomationElement.FromHandle(GetDingTalk());
+            AutomationElement dingTalk = AutomationElement.FromHandle(GetDingTalk(domain));
             try
             {   
                 //定位验证码所在类名
@@ -375,7 +430,7 @@ namespace AutoLogin
             {
                 if (tryNum < 3)
                 {
-                    return GetDingTalkNotification();
+                    return GetDingTalkNotification(domain);
 
                 }
             }
@@ -383,6 +438,8 @@ namespace AutoLogin
         }
 
         #endregion
+
+
         #endregion
     }
 
@@ -392,6 +449,20 @@ namespace AutoLogin
         public string account {  get; set; }
         public string password { get; set; }
         public string url { get; set; }
+
+        public string fiddlerUrl { get; set; }
+
+        //未读按钮坐标
+        public int unreadButtonX {  get; set; }
+        public int unreadButtonY {  get; set; }
+
+        //第一个未读会话坐标
+        public int firstChatX { get; set; }
+        public int firstChatY { get; set; }
+
+        //全部按钮相对坐标
+        public int allButtonX {  get; set; }
+        public int allButtonY {  get; set; }
 
     }
 }
