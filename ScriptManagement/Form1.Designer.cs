@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions4 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject13 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject14 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject15 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject16 = new DevExpress.Utils.SerializableAppearanceObject();
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
@@ -72,7 +72,7 @@
             this.dockPanel1,
             this.dockPanel4,
             this.dockPanel2});
-            this.dockManager1.Style = DevExpress.XtraBars.Docking2010.Views.DockingViewStyle.Classic;
+            this.dockManager1.Style = DevExpress.XtraBars.Docking2010.Views.DockingViewStyle.Light;
             this.dockManager1.TopZIndexControls.AddRange(new string[] {
             "DevExpress.XtraBars.BarDockControl",
             "DevExpress.XtraBars.StandaloneBarDockControl",
@@ -102,10 +102,10 @@
             // dockPanel1_Container
             // 
             this.dockPanel1_Container.Controls.Add(this.memoEdit1);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(2, 26);
+            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 25);
             this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(1059, 242);
+            this.dockPanel1_Container.Size = new System.Drawing.Size(1063, 245);
             this.dockPanel1_Container.TabIndex = 0;
             // 
             // memoEdit1
@@ -115,7 +115,7 @@
             this.memoEdit1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.memoEdit1.Name = "memoEdit1";
             this.memoEdit1.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.memoEdit1.Size = new System.Drawing.Size(1059, 242);
+            this.memoEdit1.Size = new System.Drawing.Size(1063, 245);
             this.memoEdit1.TabIndex = 1;
             // 
             // dockPanel4
@@ -134,10 +134,10 @@
             // dockPanel4_Container
             // 
             this.dockPanel4_Container.Controls.Add(this.treeList1);
-            this.dockPanel4_Container.Location = new System.Drawing.Point(2, 25);
+            this.dockPanel4_Container.Location = new System.Drawing.Point(0, 24);
             this.dockPanel4_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel4_Container.Name = "dockPanel4_Container";
-            this.dockPanel4_Container.Size = new System.Drawing.Size(395, 416);
+            this.dockPanel4_Container.Size = new System.Drawing.Size(399, 419);
             this.dockPanel4_Container.TabIndex = 0;
             // 
             // treeList1
@@ -153,6 +153,7 @@
             this.treeList1.Location = new System.Drawing.Point(0, 0);
             this.treeList1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.treeList1.Name = "treeList1";
+            this.treeList1.OptionsFind.AlwaysVisible = true;
             this.treeList1.OptionsMenu.EnableColumnMenu = false;
             this.treeList1.OptionsPrint.AutoWidth = false;
             this.treeList1.OptionsPrint.PrintFilledTreeIndent = true;
@@ -161,7 +162,7 @@
             this.treeList1.OptionsView.ShowVertLines = false;
             this.treeList1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemButtonEdit1});
-            this.treeList1.Size = new System.Drawing.Size(395, 416);
+            this.treeList1.Size = new System.Drawing.Size(399, 419);
             this.treeList1.TabIndex = 1;
             this.treeList1.TreeLevelWidth = 17;
             this.treeList1.VertScrollVisibility = DevExpress.XtraTreeList.ScrollVisibility.Never;
@@ -219,7 +220,7 @@
             this.repositoryItemButtonEdit1.AutoHeight = false;
             this.repositoryItemButtonEdit1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Right, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "执行", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Right, "", -1, true, true, false, editorButtonImageOptions4, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject13, serializableAppearanceObject14, serializableAppearanceObject15, serializableAppearanceObject16, "执行", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.repositoryItemButtonEdit1.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
             this.repositoryItemButtonEdit1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
@@ -241,10 +242,10 @@
             // dockPanel2_Container
             // 
             this.dockPanel2_Container.Controls.Add(this.gridControl1);
-            this.dockPanel2_Container.Location = new System.Drawing.Point(2, 25);
+            this.dockPanel2_Container.Location = new System.Drawing.Point(0, 24);
             this.dockPanel2_Container.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dockPanel2_Container.Name = "dockPanel2_Container";
-            this.dockPanel2_Container.Size = new System.Drawing.Size(659, 415);
+            this.dockPanel2_Container.Size = new System.Drawing.Size(663, 419);
             this.dockPanel2_Container.TabIndex = 0;
             // 
             // gridControl1
@@ -253,7 +254,7 @@
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.tileView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(659, 415);
+            this.gridControl1.Size = new System.Drawing.Size(663, 419);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.tileView1});
@@ -262,6 +263,7 @@
             // 
             this.tileView1.GridControl = this.gridControl1;
             this.tileView1.Name = "tileView1";
+            this.tileView1.OptionsFind.AlwaysVisible = true;
             this.tileView1.OptionsTiles.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.tileView1.OptionsTiles.RowCount = 0;
             // 

@@ -1,8 +1,8 @@
 [
   {
     "name": "DEVOPS",
-    "account": "",
-    "password": "",
+    "account": "17759513112",
+    "password": "9lxGs0XF7ARJWrVQ",
     "url": "https://devops.om.dianhun.cn/games/ZCXM/task",
     "fiddlerUrl": "https://devops-gateway.om.dianhun.cn/DEVOPSEDGE/api/task/getAll",
     "unreadButtonX": 182,
@@ -13,11 +13,16 @@
     "allButtonY": 58
   },
   {
+    "name": "游动后台",
+    "account": "17759513112",
+    "password": "9lxGs0XF7ARJWrVQ",
+    "url": "http://newadmin.youdong.com/index/main",
+  },
+  {
     "name": "魂淡中台系统",
-    "account": "",
-    "password": "",
+    "account": "17759513112",
+    "password": "9lxGs0XF7ARJWrVQ",
     "url": "https://hd.om.dianhun.cn/",
-    "catchUrl": "",
     "unreadButtonX": 182,
     "unreadButtonY": 58,
     "firstChatX": 211,

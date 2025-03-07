@@ -5,6 +5,7 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -46,6 +47,10 @@ namespace AutoLogin
             SplashScreenManager.ShowDefaultWaitForm("正在登录", "请等待...");
             autologinModel.Run((DomainModel)cardView1.GetFocusedRow());
             SplashScreenManager.CloseForm();
+            // BringToFront 使窗口在 z 顺序上置顶
+            this.BringToFront();
+            // Activate 使窗口获得焦点
+            this.Activate();
         }
 
     }
@@ -70,7 +75,7 @@ namespace AutoLogin
 
         public void CloseDriver() 
         {
-            if (driver!=null)
+            if (driver != null)
             {
                 driver.Quit();
                 driver.Dispose();
@@ -87,25 +92,32 @@ namespace AutoLogin
             {
                 try
                 {
-                    // 尝试获取当前标签页的窗口句柄
-                    var handles = driver.WindowHandles;
                     // 如果能正常获取，说明实例依然有效，直接返回
                     return;
                 }
                 catch
                 {
                     // 如果捕获到异常，则认为 driver 无效，置空以便重新初始化
-                    CloseDriver();
+                    driver.Quit();
+                    driver.Dispose();
+                    driver = null;
                 }
             }
             ChromeOptions options = new ChromeOptions();
             ChromeDriverService service = ChromeDriverService.CreateDefaultService();
             service.HideCommandPromptWindow = true;
+
+            string port = ConfigCache.GetIns.GetAutoLoginPort();
+            string dir = ConfigCache.GetIns.GetAutoLoginDir();
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
             // 判断本地9222端口是否开放
-            if (IsPortOpen("127.0.0.1", 9222, 1000))
+            if (IsPortOpen("127.0.0.1", Convert.ToInt16(port), 1000))
             {
                 // 已有 Chrome 调试实例
-                options.DebuggerAddress = "127.0.0.1:9222";
+                options.DebuggerAddress = "127.0.0.1:"+ port;
                 Console.WriteLine("检测到已启动的Chrome实例，将复用该浏览器。");
                 driver = new ChromeDriver(service, options);
             }
@@ -115,9 +127,9 @@ namespace AutoLogin
                 // 未检测到调试实例，则启动新的 Chrome 实例
                 Console.WriteLine("未检测到Chrome调试实例，启动新的浏览器。");
                 // 如果需要让新启动的Chrome也启用调试模式，可以添加以下参数：
-                options.AddArgument("user-data-dir=D:\\SeleniumChromeProfile");
+                options.AddArgument("user-data-dir=" + dir);
                 options.AddArgument("--start-maximized");
-                options.AddArgument("--remote-debugging-port=9222");
+                options.AddArgument("--remote-debugging-port=" + port);
 
                 driver = new ChromeDriver(service, options);
             }
@@ -178,7 +190,7 @@ namespace AutoLogin
             {
 
                 //切换账号密码登录
-                var switchButton = FindElement(By.ClassName("vui-login-modal-toggler"));
+                 var switchButton = FindElement(By.ClassName("vui-login-modal-toggler"));
                 if (switchButton == null)
                 {
                     return "已登录";
@@ -236,7 +248,7 @@ namespace AutoLogin
         {
             IWebElement input = null;
             int num = 0;
-            while (input == null && num < 2)
+            while (input == null && num < 3)
             {
                 try
                 {

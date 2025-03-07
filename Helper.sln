@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLogin", "AutoLogin\AutoLogin.csproj", "{26B898C8-76A7-4D7D-A80B-2CD981C2BA74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DXApplication1", "DXApplication1\DXApplication1.csproj", "{E0D5FD57-16F4-4965-8724-F4E45992CF91}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,14 +101,6 @@ Global
 		{26B898C8-76A7-4D7D-A80B-2CD981C2BA74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26B898C8-76A7-4D7D-A80B-2CD981C2BA74}.Release|x86.ActiveCfg = Release|Any CPU
 		{26B898C8-76A7-4D7D-A80B-2CD981C2BA74}.Release|x86.Build.0 = Release|Any CPU
-		{E0D5FD57-16F4-4965-8724-F4E45992CF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0D5FD57-16F4-4965-8724-F4E45992CF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0D5FD57-16F4-4965-8724-F4E45992CF91}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E0D5FD57-16F4-4965-8724-F4E45992CF91}.Debug|x86.Build.0 = Debug|Any CPU
-		{E0D5FD57-16F4-4965-8724-F4E45992CF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0D5FD57-16F4-4965-8724-F4E45992CF91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0D5FD57-16F4-4965-8724-F4E45992CF91}.Release|x86.ActiveCfg = Release|Any CPU
-		{E0D5FD57-16F4-4965-8724-F4E45992CF91}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

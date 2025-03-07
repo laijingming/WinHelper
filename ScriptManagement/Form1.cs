@@ -67,10 +67,11 @@ namespace ScriptManagement
         {  
             try
             {
-                // 将当前布局保存为 XML
-                dockManager1.SaveLayoutToXml(layoutFilePath);
                 fiddlerHelper.CloseFiddler();
                 autologinModel.CloseDriver();
+                // 将当前布局保存为 XML
+                dockManager1.SaveLayoutToXml(layoutFilePath);
+
             }
             catch (Exception ex)
             {
@@ -85,6 +86,7 @@ namespace ScriptManagement
         private ContextMenuStrip contextMenuStrip;
         ToolStripMenuItem topMenuItem;
         ToolStripMenuItem unTopMenuItem;
+        ToolStripMenuItem setNicknameMenuItem;
         private void InitGrid()
         {
             gridControl1.DataSource = CommandLog.getIns.data;
@@ -126,10 +128,30 @@ namespace ScriptManagement
             unTopMenuItem.Click += UnTopMenuItem_Click; ;
             contextMenuStrip.Items.Add(unTopMenuItem);
 
+            setNicknameMenuItem = new ToolStripMenuItem("设置昵称");
+            setNicknameMenuItem.Click += SetNicknameMenuItem_Click;
+            contextMenuStrip.Items.Add(setNicknameMenuItem);  
 
             tileView1.DoubleClick += TileView1_DoubleClick;
             tileView1.ItemRightClick += TileView1_ItemRightClick;
             tileView1.ItemCustomize += TileView1_ItemCustomize;
+        }
+
+        /// <summary>
+        /// 设置昵称
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetNicknameMenuItem_Click(object sender, EventArgs e)
+        {
+            CommandLogModel model = (CommandLogModel)tileView1.GetFocusedRow();
+            string nickname = XtraInputBox.Show("请输入昵称", "设置昵称", "");
+            if (string.IsNullOrWhiteSpace(nickname))
+            {
+                return;
+            }
+            CommandLog.getIns.SetNickname(model.name,nickname);
+            tileView1.RefreshData();
         }
 
         /// <summary>
@@ -237,7 +259,7 @@ namespace ScriptManagement
 
 
         private void InitTree()
-        {
+        {   
             treeListInitial = new DevTreeListInit(treeList1);
             List<CommandModel> commandModels = CommandCache.getIns.data;
             treeList1.DataSource = commandModels;
@@ -488,7 +510,7 @@ namespace ScriptManagement
             DisplayPartialResult(STATUS_RUNNING, autologinModel.Run(domain));
             DisplayPartialResult(STATUS_RUNNING, "捕获结束");
             fiddlerHelper.StopFiddler();// 停止 Fiddler 捕获
-
+            this.Show();
             CommandModel model = CommandCache.getIns.GetDevop();
             if (model !=null)
             {

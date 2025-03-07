@@ -16,6 +16,24 @@ namespace AJLibrary
         {
         }
 
-        public static ConfigCache getIns => SingletonHelper<ConfigCache>.GetInstance();
+        public static ConfigCache GetIns => Master.getModel<ConfigCache>();
+
+        /// <summary>
+        /// 一键登录端口
+        /// </summary>
+        /// <returns></returns>
+        public string GetAutoLoginPort() 
+        {
+            return Get("autoLoginPort", "9222");
+        }
+        /// <summary>
+        /// 一键登录端口
+        /// </summary>
+        /// <returns></returns>
+        public string GetAutoLoginDir()
+        {
+            return Get("autoLoginDir", "D:\\SeleniumChromeProfile");
+        }
+
     }
 }

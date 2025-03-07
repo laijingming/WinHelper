@@ -35,6 +35,22 @@ namespace ScriptManagement.Class
         }
 
         /// <summary>
+        /// 设置昵称
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="nickname"></param>
+        public void SetNickname(string key,string nickname) 
+        {
+            int index = getIns.data.FindIndex(x => x.name == key);
+            if (index == -1)
+            {
+                return;
+            }
+            getIns.data[index].nickname = nickname;
+            getIns.MarkUpdated();
+        }
+
+        /// <summary>
         /// 设置置顶
         /// </summary>
         /// <param name="key"></param>

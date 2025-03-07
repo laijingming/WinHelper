@@ -64,7 +64,7 @@ namespace AJLibrary
             }
         }
 
-        public string Get(string key)
+        public string Get(string key,string def="")
         {
             if (cache.ContainsKey(key))
             {
@@ -72,7 +72,7 @@ namespace AJLibrary
             }
 
             // 如果键不存在，返回 空字符串 
-            return "";
+            return def;
         }
 
 

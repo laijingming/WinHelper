@@ -20,8 +20,8 @@ namespace AJLibrary
 
         public FiddlerHelper() 
         {   
-            key = ConfigCache.getIns.Get("fiddler.certmaker.bc.key");
-            cert = ConfigCache.getIns.Get("fiddler.certmaker.bc.cert");
+            key = ConfigCache.GetIns.Get("fiddler.certmaker.bc.key");
+            cert = ConfigCache.GetIns.Get("fiddler.certmaker.bc.cert");
             Install();
         }
 
@@ -51,11 +51,11 @@ namespace AJLibrary
                 else
                 {
                     // 保存证书配置到缓存中，便于下次使用
-                    ConfigCache.getIns.Set("fiddler.certmaker.bc.cert",
+                    ConfigCache.GetIns.Set("fiddler.certmaker.bc.cert",
                         FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.cert", null));
-                    ConfigCache.getIns.Set("fiddler.certmaker.bc.key",
+                    ConfigCache.GetIns.Set("fiddler.certmaker.bc.key",
                         FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.key", null));
-                    ConfigCache.getIns.SaveCacheToFile();
+                    ConfigCache.GetIns.SaveCacheToFile();
                 }
             }
         }
@@ -68,8 +68,8 @@ namespace AJLibrary
                 // 移除由 Fiddler 生成的证书
                 if (CertMaker.removeFiddlerGeneratedCerts())
                 {
-                    ConfigCache.getIns.Set("fiddler.certmaker.bc.cert", null);
-                    ConfigCache.getIns.Set("fiddler.certmaker.bc.key", null);
+                    ConfigCache.GetIns.Set("fiddler.certmaker.bc.cert", null);
+                    ConfigCache.GetIns.Set("fiddler.certmaker.bc.key", null);
                     return true;
                 }
             }
