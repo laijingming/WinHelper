@@ -129,6 +129,10 @@
       <Name>ImageToIco</Name>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Office\Office.csproj">
+      <Project>{77c14604-3ebf-4f89-97df-7a99d07ccd77}</Project>
+      <Name>Office</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ScriptManagement\ScriptManagement.csproj">
       <Project>{39e73daf-70a9-41a6-a001-f3531d30e7d7}</Project>
       <Name>ScriptManagement</Name>

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLogin", "AutoLogin\AutoLogin.csproj", "{26B898C8-76A7-4D7D-A80B-2CD981C2BA74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Office", "Office\Office.csproj", "{77C14604-3EBF-4F89-97DF-7A99D07CCD77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,14 @@ Global
 		{26B898C8-76A7-4D7D-A80B-2CD981C2BA74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26B898C8-76A7-4D7D-A80B-2CD981C2BA74}.Release|x86.ActiveCfg = Release|Any CPU
 		{26B898C8-76A7-4D7D-A80B-2CD981C2BA74}.Release|x86.Build.0 = Release|Any CPU
+		{77C14604-3EBF-4F89-97DF-7A99D07CCD77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77C14604-3EBF-4F89-97DF-7A99D07CCD77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77C14604-3EBF-4F89-97DF-7A99D07CCD77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{77C14604-3EBF-4F89-97DF-7A99D07CCD77}.Debug|x86.Build.0 = Debug|Any CPU
+		{77C14604-3EBF-4F89-97DF-7A99D07CCD77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77C14604-3EBF-4F89-97DF-7A99D07CCD77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77C14604-3EBF-4F89-97DF-7A99D07CCD77}.Release|x86.ActiveCfg = Release|Any CPU
+		{77C14604-3EBF-4F89-97DF-7A99D07CCD77}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

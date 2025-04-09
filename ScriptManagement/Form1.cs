@@ -16,6 +16,7 @@ using DevExpress.Utils;
 using AutoLogin;
 using System.Text.RegularExpressions;
 using static AJLibrary.Cmd;
+using DevExpress.XtraSplashScreen;
 
 namespace ScriptManagement
 {
@@ -23,7 +24,7 @@ namespace ScriptManagement
     {
         private string layoutFilePath = "./file/dockManagerLayout.xml"; // 保存布局的文件路径
         FiddlerHelper fiddlerHelper = FiddlerHelper.getIns;
-        AutologinModel autologinModel = new AutologinModel();
+        AutologinModel autologinModel = AutologinModel.getIns;
         public TaskManage taskManage = new TaskManage();
         DevTreeListInit treeListInitial;
         DomainModel domain;
@@ -133,9 +134,12 @@ namespace ScriptManagement
             contextMenuStrip.Items.Add(setNicknameMenuItem);  
 
             tileView1.DoubleClick += TileView1_DoubleClick;
+            tileView1.KeyDown += TileView1_KeyDown;
             tileView1.ItemRightClick += TileView1_ItemRightClick;
             tileView1.ItemCustomize += TileView1_ItemCustomize;
         }
+
+        
 
         /// <summary>
         /// 设置昵称
@@ -242,12 +246,24 @@ namespace ScriptManagement
         /// <param name="e"></param>
         private void TileView1_DoubleClick(object sender, EventArgs e)
         {
+            RuncombineCommand((CommandLogModel)tileView1.GetFocusedRow());
+        }
+
+        private void TileView1_KeyDown(object sender, KeyEventArgs e)
+        {
             CommandLogModel model = (CommandLogModel)tileView1.GetFocusedRow();
+            if (model != null && e.KeyCode == Keys.Enter)
+            {
+                RuncombineCommand(model);
+            }
+        }
+
+        private void RuncombineCommand(CommandLogModel model) 
+        {
             string[] name_arr = model.name.Split('、');
             foreach (string name in name_arr)
             {
-                TreeListNode node = treeList1.FindNode(x => x.GetValue("name").ToString() == name);
-                taskManage.AddTaskListByNode(node);
+                AddTaskListByNode(treeList1.FindNode(x => x.GetValue("name").ToString() == name));
             }
             TaskRun();
         }
@@ -282,7 +298,7 @@ namespace ScriptManagement
                         Cmd.TaskCompletionSourceList.Clear();//清空上一次执行任务结果
                         foreach (TreeListNode item in treeListInitial.treeListNodes)
                         {
-                            taskManage.AddTaskListByNode(item);
+                            AddTaskListByNode(item);
                         }
                         TaskRun();
                     }
@@ -301,7 +317,7 @@ namespace ScriptManagement
 
         private void ButtonEdit_ButtonClick(object sender, ButtonPressedEventArgs e)
         {
-            taskManage.AddTaskListByNode(treeList1.FocusedNode);
+            AddTaskListByNode(treeList1.FocusedNode);
             TaskRun();
         }
 
@@ -350,6 +366,9 @@ namespace ScriptManagement
                     case 2:
                     case 3:
                         e.DisplayText = "阻塞";
+                        break;
+                    case 4:
+                        e.DisplayText = "参数";
                         break;
                     default:
                         e.DisplayText = "未知类型";
@@ -402,7 +421,59 @@ namespace ScriptManagement
             isAuth = false;
             taskManage.Run();
             tileView1.RefreshData();
-        } 
+        }
+
+        /// <summary>
+        /// 添加节点命令
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="is_check">是否执行选中，默认否</param>
+        public void AddTaskListByNode(TreeListNode node, bool is_check = false)
+        {
+            if (node == null)
+            {
+                return;
+            }
+            if (node.HasChildren)
+            {
+                foreach (TreeListNode item in node.Nodes)
+                {
+                    //父节点
+                    //  isCheck
+                    //  false所有子节点都执行
+                    //  true只执行选中的子节点
+                    if (!is_check || (is_check && item.Checked))
+                    {
+                        AddTask(item);
+                    }
+                }
+            }
+            else
+            {
+                AddTask(node);
+            }
+        }
+
+        /// <summary>
+        /// 添加任务
+        /// </summary>
+        /// <param name="node"></param>
+        public void AddTask(TreeListNode node)
+        {
+            string parrent_command = null;
+            if (node.ParentNode != null)
+            {
+                parrent_command = node.ParentNode.GetValue("command").ToString();
+            }
+            taskManage.AddTask(new CommandModel()
+            {
+                name = node.GetValue("name").ToString(),
+                parrent_command = parrent_command,
+                command = node.GetValue("command").ToString(),
+                type = node.GetValue("type").ToString(),
+            });
+        }
+
         #endregion
 
         #region memoedit
@@ -505,23 +576,33 @@ namespace ScriptManagement
         #region 自动登录
         public  void AutoLoginAsync(string lastCommand)
         {
-            fiddlerHelper.StartFiddler();
-            DisplayPartialResult(STATUS_RUNNING, "开始捕获auth...");
-            DisplayPartialResult(STATUS_RUNNING, autologinModel.Run(domain));
-            DisplayPartialResult(STATUS_RUNNING, "捕获结束");
-            fiddlerHelper.StopFiddler();// 停止 Fiddler 捕获
-            this.Show();
-            CommandModel model = CommandCache.getIns.GetDevop();
-            if (model !=null)
+            try
             {
-                //重新执行命令
-                string[] lastCommandParts = lastCommand.Split(' ');
-                ExecAsync(model.command+" "+ lastCommandParts[lastCommandParts.Length - 1]);
+                SplashScreenManager.ShowDefaultWaitForm("开始捕获auth...", "请等待...");
+                fiddlerHelper.StartFiddler();
+                DisplayPartialResult(STATUS_RUNNING, "开始捕获auth...");
+                DisplayPartialResult(STATUS_RUNNING, autologinModel.Run(domain));
+                this.BringToFront();
+                this.Activate();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                fiddlerHelper.StopFiddler();// 停止 Fiddler 捕获
+                DisplayPartialResult(STATUS_RUNNING, "捕获结束");
+                SplashScreenManager.CloseForm();
+                CommandModel model = CommandCache.getIns.GetDevop();
+                if (model != null)
+                {
+                    //重新执行命令
+                    string[] lastCommandParts = lastCommand.Split(' ');
+                    ExecAsync(model.command + " " + lastCommandParts[lastCommandParts.Length - 1]);
+                }
             }
         }
-        #endregion
-
-        #region fiddler
 
         private void InitFiddler() 
         {

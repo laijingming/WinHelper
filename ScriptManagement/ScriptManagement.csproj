@@ -162,9 +162,7 @@
     <None Include="App.config" />
     <None Include="file\command2.json" />
     <None Include="file\command.json" />
-    <None Include="file\devops.php">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="file\devops.php" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -13,58 +13,14 @@ namespace ScriptManagement
 
         public List<CommandModel> list = new List<CommandModel>();//任务列表
         public static bool is_run = false;
-        /// <summary>
-        /// 添加节点命令
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="is_check">是否执行选中，默认否</param>
-        public void AddTaskListByNode(TreeListNode node, bool is_check = false)
-        {
-            if (node == null)
-            {
-                return;
-            }
-            if (is_run)
-            {
-                XtraMessageBox.Show("有命令正在执行，请等候...");
-                return;
-            }
-            if (node.HasChildren)
-            {
-                foreach (TreeListNode item in node.Nodes)
-                {
-                    //父节点
-                    //  isCheck为false所有子节点都执行
-                    //  isCheck为true只执行选中的子节点
-                    if (!is_check || (is_check && item.Checked))
-                    {
-                        AddTask(item);
-                    }
-                }
-            }
-            else
-            {
-                AddTask(node);
-            }
-        }
+
         /// <summary>
         /// 添加任务
         /// </summary>
-        /// <param name="node"></param>
-        public void AddTask(TreeListNode node)
+        /// <param name="model"></param>
+        public void AddTask(CommandModel model) 
         {
-            string parrent_command = null;
-            if (node.ParentNode != null)
-            {
-                parrent_command = node.ParentNode.GetValue("command").ToString();
-            }
-            list.Add(new CommandModel()
-            {   
-                name = node.GetValue("name").ToString(),
-                parrent_command = parrent_command,
-                command = node.GetValue("command").ToString(),
-                type = node.GetValue("type").ToString(),
-            });
+            list.Add(model);
         }
 
         /// <summary>

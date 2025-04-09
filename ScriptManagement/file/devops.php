@@ -10,9 +10,9 @@ define('UNIQID', 1514362957);
 define('BASE_URL', 'https://devops-gateway.om.dianhun.cn/DEVOPSEDGE/api/task/');
 define('HISTORY_PAGE_URL', BASE_URL . 'getHistoryPage');//历史作业信息地址
 define('WORK_URL', BASE_URL . 'perform/');//执行作业地址
-define('WORK_INFO_URL', BASE_URL . 'getAll/713');//获取要执行作业信息
-header( "Content-type: text/html; charset=utf-8" );
-if (!isset($argv[1],$argv[2])) {
+define('LIST_AUTH_GAMES_URL', "https://devops-gateway.om.dianhun.cn/DEVOPSEDGE/api/me/list-auth-games");//获取要执行作业项目信息
+header("Content-type: text/html; charset=utf-8");
+if (!isset($argv[1], $argv[2])) {
     exit('需要参数1');
 }
 define('API_KEY', $argv[1]);
@@ -25,28 +25,15 @@ class Devops
 {
     public $headers = [];
     public $params = [];
-    public $sev_cfg = [
-        1 => '【游动都市预上线服】业务环境初始化',
-        2 => '【游动都市安锋繁体预上线】业务环境初始化',
-        3 => '【游动都市BBG韩国预上线服】业务环境初始化',
-        4 => '【都市绿洲日本预上线-new】业务环境初始化',
-        9 => '【都市十九岁测试服】业务环境初始化',
 
-        5  => '【游动都市霸道总裁镜像服】业务环境初始化',
-        6  => '【游动都市安锋繁体镜像服】业务环境初始化',
-        7  => '【游动都市BBG韩国镜像服】业务环境初始化',
-        8  => '【游动都市绿洲日本镜像服】业务环境初始化',
-        10 => '【都市十九岁镜像服】业务环境初始化',
-    ];
-    public $skins = [];
     public $info;
 
     public function __construct($_skins)
     {
-        $this->headers[] = 'Authorization: Bearer ' . API_KEY;
+        $this->headers[]        = 'Authorization: Bearer ' . API_KEY;
         $this->params['uniqId'] = UNIQID;
         foreach ($_skins as $v) {
-            $this->skins[] = "【".$v."】业务环境初始化";
+            $this->skins[] = trim($v);
         }
     }
 
@@ -58,7 +45,7 @@ class Devops
             echo $v['name'], $res, PHP_EOL;
             $num = 30;
             while ($num > 0) {
-                if ($this->history($v['id'], $this->params, $this->headers) != 1) {
+                if ($this->history($v['id'],$v['gameId'], $this->params, $this->headers) != 1) {
                     break;//返回执行作业结果
                 }
                 $num--;
@@ -67,12 +54,12 @@ class Devops
         }
     }
 
-    public function history($work_id, $params, $headers)
+    public function history($work_id, $game_id, $params, $headers)
     {
         $stateArr         = [0 => '未知', 1 => '正在执行', 2 => '成功', 3 => '失败',];
         $params['page']   = 1;
         $params['limit']  = 1;
-        $params['gameId'] = 713;
+        $params['gameId'] = $game_id;
         $params['taskId'] = $work_id;
         $res              = $this->request(HISTORY_PAGE_URL, $params, 'GET', $headers);
         $data             = json_decode($res, true);
@@ -100,18 +87,25 @@ class Devops
     {
         $work_info = [];
         if (!empty($skin)) {
-            $res  = $this->request(WORK_INFO_URL, $params, 'GET', $headers);
-            $data = json_decode($res, true);
-            if (isset($data['code']) && $data['code'] == 0) {
-                foreach ($data['data'] as $v) {
-                    if (in_array(trim($v['name']), $skin)) {
-                        $work_info[] = $v;
+            $games = $this->request(LIST_AUTH_GAMES_URL, $params, 'GET', $headers);
+            $games = json_decode($games, true);
+            if (isset($games['code']) && $games['code'] == 0) {
+                foreach ($games['data'] as $v) {
+                    $url = BASE_URL . 'getAll/' . $v['id'];
+                    $res = $this->request($url, $params, 'GET', $headers);
+                    $res = json_decode($res, true);
+                    if (isset($res['code']) && $res['code'] == 0) {
+                        foreach ($res['data'] as $vv) {
+                            if (in_array(trim($vv['name']), $skin)) {
+                                $work_info[] = $vv;
+                            }
+                        }
                     }
                 }
-            } else {
-                echo '获取作业信息失败', PHP_EOL;
             }
-
+        }
+        if (empty($work_info)) {
+            die('获取作业信息失败' . __LINE__ . PHP_EOL);
         }
         return $work_info;
     }

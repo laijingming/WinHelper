@@ -33,7 +33,7 @@ namespace ScriptManagement.Class
         public CommandModel GetDevop() 
         {
             // 重新执行命令
-            int index = data.FindIndex(x => x.name == "Devop");
+            int index = data.FindIndex(x => x.name == "DEVOPS");
             if (index >= 0)
             {
                return data[index];

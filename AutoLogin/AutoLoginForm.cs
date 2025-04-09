@@ -1,4 +1,5 @@
 ﻿using AJLibrary;
+using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -18,7 +19,7 @@ namespace AutoLogin
 {
     public partial class AutoLoginForm : DevExpress.XtraEditors.XtraForm
     {
-        AutologinModel autologinModel = new AutologinModel();
+        AutologinModel autologinModel = AutologinModel.getIns;
         public AutoLoginForm()
         {
             InitializeComponent();
@@ -48,15 +49,17 @@ namespace AutoLogin
             autologinModel.Run((DomainModel)cardView1.GetFocusedRow());
             SplashScreenManager.CloseForm();
             // BringToFront 使窗口在 z 顺序上置顶
-            this.BringToFront();
+            //this.BringToFront();
             // Activate 使窗口获得焦点
-            this.Activate();
+            //this.Activate();
         }
 
     }
     public class AutologinModel
     {   
         public List<DomainModel> data { get;}
+
+        public static AutologinModel getIns = SingletonHelper<AutologinModel>.GetInstance();
 
         public AutologinModel() 
         {
@@ -92,17 +95,17 @@ namespace AutoLogin
             {
                 try
                 {
-                    // 如果能正常获取，说明实例依然有效，直接返回
+                    var hand = driver.Url;
                     return;
                 }
-                catch
+                catch (Exception)
                 {
-                    // 如果捕获到异常，则认为 driver 无效，置空以便重新初始化
                     driver.Quit();
                     driver.Dispose();
                     driver = null;
                 }
-            }
+            };
+
             ChromeOptions options = new ChromeOptions();
             ChromeDriverService service = ChromeDriverService.CreateDefaultService();
             service.HideCommandPromptWindow = true;
@@ -379,7 +382,7 @@ namespace AutoLogin
                 // 模拟鼠标点击操作
                 // 点击未读按钮
                 ClickMouse(unreadButtonX, unreadButtonY);
-                Thread.Sleep(4000); // 等待会话列表加载
+                Thread.Sleep(2500); // 等待会话列表加载
 
                 // 点击第一个未读会话
                 ClickMouse(firstChatX, firstChatY);
@@ -438,13 +441,14 @@ namespace AutoLogin
                     return match.Value;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (tryNum < 3)
-                {
-                    return GetDingTalkNotification(domain);
+                XtraMessageBox.Show(ex.Message);
+            }
+            if (tryNum < 3)
+            {
+                return GetDingTalkNotification(domain);
 
-                }
             }
             return "未找到验证码";
         }

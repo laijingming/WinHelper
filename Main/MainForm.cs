@@ -1,11 +1,11 @@
 ﻿using DevExpress.XtraEditors;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using DevExpress.XtraBars.Docking;
 using DevExpress.XtraBars.Docking2010.Views;
-using DevExpress.XtraBars.Docking2010;
+using AutoLogin;
+using DevExpress.XtraSplashScreen;
 
 namespace Main
 {
@@ -61,7 +61,7 @@ namespace Main
 
             DateTime currentTime = DateTime.Now;
             // 检查是否在设定的时间间隔内按下相同的键
-            if (e.KeyCode == lastKeyPressed && (currentTime - lastKeyPressTime) <= doublePressInterval)
+            if (e.KeyCode == Keys.Escape && (currentTime - lastKeyPressTime) <= doublePressInterval)
             {
                 // 在此处处理连续两次按下相同按键的逻辑
                 tabbedView1.ActivateDocument(dockPanel1);
@@ -225,7 +225,9 @@ namespace Main
                 tileControl1.Groups.Add(tileGroup);
                 tile.ItemClick += (sender, e) =>
                 {
+                    SplashScreenManager.ShowDefaultWaitForm("正在打开", "请等待......");
                     ShowFormByName(tileTpl);
+                    SplashScreenManager.CloseForm();
                 };
             }
         }
@@ -280,10 +282,10 @@ namespace Main
         public void ShowFormByName(TileTpl tileTpl)
         {
             // 检查是否已经打开了相同路径的文档
-            DevExpress.XtraBars.Docking.DockPanel dockPanel;
+            DockPanel dockPanel;
             foreach (var doc in tabbedView1.Documents)
             {
-                dockPanel = doc.Control as DevExpress.XtraBars.Docking.DockPanel;
+                dockPanel = doc.Control as DockPanel;
                 if (dockPanel != null && dockPanel.Text == tileTpl.name)
                 {
                     // 如果已经存在相同路径的文档，则激活该文档并返回

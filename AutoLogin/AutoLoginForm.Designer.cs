@@ -63,6 +63,7 @@
             // 
             // cardView1
             // 
+            this.cardView1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.cardView1.CardCaptionFormat = "{1}";
             this.cardView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
@@ -73,10 +74,14 @@
             this.cardView1.Name = "cardView1";
             this.cardView1.OptionsBehavior.AutoHorzWidth = true;
             this.cardView1.OptionsBehavior.CacheValuesOnRowUpdating = DevExpress.Data.CacheRowValuesMode.Default;
+            this.cardView1.OptionsBehavior.Editable = false;
             this.cardView1.OptionsView.ShowCardExpandButton = false;
             this.cardView1.OptionsView.ShowFieldCaptions = false;
+            this.cardView1.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
+            this.cardView1.OptionsView.ShowHorzScrollBar = false;
+            this.cardView1.OptionsView.ShowLines = false;
             this.cardView1.OptionsView.ShowQuickCustomizeButton = false;
-            this.cardView1.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Auto;
+            this.cardView1.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
             this.cardView1.DoubleClick += new System.EventHandler(this.cardView1_DoubleClick);
             // 
             // gridColumn1
