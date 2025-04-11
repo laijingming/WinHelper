@@ -1,0 +1,22 @@
+[
+  {
+    "Url": "http://dushitime.test.commpad.cn/cmd_t.php?tpass=abcddd123&uid={0}&sevid={1}",
+    "Name": "官方"
+  },
+  {
+    "Url": "http://dushisjscsf.ydzjdf.com/cmd_t.php?tpass=abcddd123&uid={0}&sevid={1}",
+    "Name": "十九岁"
+  },
+  {
+    "Url": "http://dushibbghgysx.hnyoulu.com/cmd_t.php?tpass=abcddd123&uid={0}&sevid={1}",
+    "Name": "韩国"
+  },
+  {
+    "Url": "http://dushiafftysx.hnyoulu.com/cmd_t.php?tpass=abcddd123&uid={0}&sevid={1}",
+    "Name": "繁体"
+  },
+  {
+    "Url": "http://dushilzrbysx.hnyoulu.com/cmd_t.php?tpass=abcddd123&uid={0}&sevid={1}",
+    "Name": "日本"
+  }
+]

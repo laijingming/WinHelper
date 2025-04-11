@@ -12,6 +12,10 @@ namespace AJLibrary
     public class Common
     {
         /// <summary>
+        /// 根目录地址
+        /// </summary>
+        public static string ROOTPATH = AppDomain.CurrentDomain.BaseDirectory;
+        /// <summary>
         /// 加载浮窗
         /// </summary>
         /// <param name="start"></param>

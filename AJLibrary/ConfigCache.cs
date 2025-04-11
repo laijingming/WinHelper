@@ -31,9 +31,19 @@ namespace AJLibrary
         /// </summary>
         /// <returns></returns>
         public string GetAutoLoginDir()
-        {
+        {   
             return Get("autoLoginDir", "D:\\SeleniumChromeProfile");
         }
+
+        /// <summary>
+        /// 一键登录端口
+        /// </summary>
+        /// <returns></returns>
+        public string GetProtpcolFilePath()
+        {
+            return Get("protpcolFilePath", Common.ROOTPATH + "file\\csData.json");
+        }
+
 
     }
 }

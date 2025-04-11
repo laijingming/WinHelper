@@ -22,7 +22,7 @@ namespace AJLibrary
         public static ProcessStartInfo psi = null;
 
         //执行结果
-        public delegate void DisplayPartialResult(int state, string partialResult="", string command = "");
+        public delegate void DisplayPartialResult(int state, string partialResult="");
         public static DisplayPartialResult displayPartialResult;
 
         public static int id = 1;

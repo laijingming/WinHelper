@@ -32,6 +32,7 @@ namespace ScriptManagement
         public Form1()
         {
             InitializeComponent();
+            autologinModel.OnLog = AppendLog;
             Cmd.displayPartialResult = DisplayPartialResult;
             // 检查是否有保存的布局文件
             if (File.Exists(layoutFilePath))
@@ -532,7 +533,7 @@ namespace ScriptManagement
 
         bool isAuth = false;//本次执行是否已经获取权限
         string lastCommand = "";
-        public void DisplayPartialResult(int status, string partialResult = "", string fixedCommand = "")
+        public void DisplayPartialResult(int status, string partialResult = "")
         {
             try
             {
@@ -540,32 +541,30 @@ namespace ScriptManagement
                 {
                     lastCommand = partialResult;
                 }
-
-                DateTime dt = DateTime.Now;
-                //更新 UI
-                BeginInvoke(new Action(() =>
+                string newPartialResult = partialResult.Replace("\r\n", Environment.NewLine);
+                AppendLog(newPartialResult);
+                // 处理重试逻辑
+                if (partialResult.IndexOf("作业不存在") > -1 && !isAuth)
                 {
-                    string newPartialResult = partialResult.Replace("\r\n", Environment.NewLine);
-                    if (newPartialResult == partialResult)
-                    {
-                        newPartialResult += Environment.NewLine;
-                    }
-                    memoEdit1.AppendText(dt.ToString() + "： " + newPartialResult);
-
-                    // 处理重试逻辑
-                    if (partialResult.IndexOf("作业不存在") > -1 && !isAuth)
-                    {
-                        isAuth = true;
-                        AutoLoginAsync(lastCommand);
-                    }
-
-                }));
-
-               
+                    isAuth = true;
+                    AutoLoginAsync(lastCommand);
+                }
             }
             catch (Exception ex)
             {
                 XtraMessageBox.Show(ex.Message);
+            }
+        }
+
+        public void AppendLog(string message) 
+        {
+            if (memoEdit1.InvokeRequired) 
+            {
+                memoEdit1.Invoke(new Action(() => AppendLog(message)));
+            }
+            else
+            {
+                memoEdit1.AppendText($"[{DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
             }
         }
 
@@ -581,7 +580,7 @@ namespace ScriptManagement
                 SplashScreenManager.ShowDefaultWaitForm("开始捕获auth...", "请等待...");
                 fiddlerHelper.StartFiddler();
                 DisplayPartialResult(STATUS_RUNNING, "开始捕获auth...");
-                DisplayPartialResult(STATUS_RUNNING, autologinModel.Run(domain));
+                autologinModel.Run(domain);
                 this.BringToFront();
                 this.Activate();
             }

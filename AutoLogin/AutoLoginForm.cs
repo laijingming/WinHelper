@@ -24,6 +24,7 @@ namespace AutoLogin
         {
             InitializeComponent();
             InitData();
+            autologinModel.OnLog = AppendLog;
             this.FormClosing += AutoLoginForm_FormClosing;
         }
 
@@ -54,16 +55,36 @@ namespace AutoLogin
             //this.Activate();
         }
 
+        private void AppendLog(string message) 
+        {
+            if (memoLog.InvokeRequired)
+            {
+                memoLog.Invoke(new Action(()=>AppendLog(message)));
+            }
+            else
+            {
+                memoLog.AppendText($"[{DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
+            }
+
+        }
+
     }
     public class AutologinModel
-    {   
+    {
+        public Action<string> OnLog = Console.WriteLine; // 默认输出到控制台
         public List<DomainModel> data { get;}
 
         public static AutologinModel getIns = SingletonHelper<AutologinModel>.GetInstance();
 
         public AutologinModel() 
-        {
+        {   
+            _driverWrapper.OnLog = Log;
             data = JsonHelper.DeserializeJsonFileToType<List<DomainModel>>("./file/autologindata.json");
+        }
+
+        private void Log(string msg)
+        {
+            OnLog?.Invoke(msg);
         }
 
         public DomainModel GetDomainByName(string name) 
@@ -71,99 +92,111 @@ namespace AutoLogin
             return data.Find(x => x.name == name);
         }
 
-        public string RunByName(string name)
-        {
-            return Run(data.Find(x => x.name == name));
-        }
-
+        #region chromedriver
+        private RetryChromeDriverWrapper _driverWrapper =
+    new RetryChromeDriverWrapper(ConfigCache.GetIns.GetAutoLoginDir(), Convert.ToInt32(ConfigCache.GetIns.GetAutoLoginPort()));
+        private IWebDriver driver => (ChromeDriver)_driverWrapper.GetDriver();
         public void CloseDriver() 
         {
-            if (driver != null)
-            {
-                driver.Quit();
-                driver.Dispose();
-                driver = null;
-            }
+            //if (driver != null)
+            //{
+            //    driver.Quit();
+            //    driver.Dispose();
+            //    driver = null;
+            //}
         }
+        //private void SetDriver()
+        //{
+        //    if (driver != null)
+        //    {
+        //        try
+        //        {
+        //            var hand = driver.Url;
+        //            return;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            try
+        //            {
+        //                driver.Quit();
+        //                driver.Dispose();
+        //            }
+        //            catch { }
+        //            driver = null;
+        //        }
+        //    };
+
+        //    ChromeOptions options = new ChromeOptions();
+        //    ChromeDriverService service = ChromeDriverService.CreateDefaultService();
+        //    service.HideCommandPromptWindow = true;
+
+        //    string port = ConfigCache.GetIns.GetAutoLoginPort();
+        //    string dir = ConfigCache.GetIns.GetAutoLoginDir();
+        //    if (!Directory.Exists(dir))
+        //    {
+        //        Directory.CreateDirectory(dir);
+        //    }
+
+        //    bool reused = false;
+
+        //    // 判断本地9222端口是否开放
+        //    if (IsPortOpen("127.0.0.1", Convert.ToInt16(port), 1000))
+        //    {
+        //        try
+        //        {
+        //            options.DebuggerAddress = "127.0.0.1:" + port;
+        //            Console.WriteLine("检测到Chrome调试实例，尝试复用中...");
+        //            driver = new ChromeDriver(service, options);
+        //            reused = true;
+        //        }
+        //        catch (WebDriverException)
+        //        {
+        //            XtraMessageBox.Show("连接已断开，重启浏览器...");
+        //        }
+        //    }
+
+        //    if (!reused)
+        //    {
+        //        options.DebuggerAddress = null;
+        //        options.AddArgument("user-data-dir=" + dir);
+        //        options.AddArgument("--start-maximized");
+        //        options.AddArgument("--remote-debugging-port=" + port);
+        //        driver = new ChromeDriver(service, options);
+        //    }
+        //}
+
+        ///// <summary>
+        ///// 检测指定主机和端口是否开放
+        ///// </summary>
+        //private bool IsPortOpen(string host, int port, int timeoutMs)
+        //{
+        //    try
+        //    {
+        //        using (var client = new TcpClient())
+        //        {
+        //            var result = client.BeginConnect(host, port, null, null);
+        //            bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromMilliseconds(timeoutMs));
+        //            if (!success)
+        //                return false;
+        //            client.EndConnect(result);
+        //        }
+        //        return true;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
+        #endregion
 
 
         #region 自动登录逻辑
-        private IWebDriver driver;
-        private void SetDriver()
+
+
+        public void Run(DomainModel domain)
         {
-            if (driver != null)
-            {
-                try
-                {
-                    var hand = driver.Url;
-                    return;
-                }
-                catch (Exception)
-                {
-                    driver.Quit();
-                    driver.Dispose();
-                    driver = null;
-                }
-            };
+            Log($"准备登录：{domain.name} @ {domain.url}");
 
-            ChromeOptions options = new ChromeOptions();
-            ChromeDriverService service = ChromeDriverService.CreateDefaultService();
-            service.HideCommandPromptWindow = true;
-
-            string port = ConfigCache.GetIns.GetAutoLoginPort();
-            string dir = ConfigCache.GetIns.GetAutoLoginDir();
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-            // 判断本地9222端口是否开放
-            if (IsPortOpen("127.0.0.1", Convert.ToInt16(port), 1000))
-            {
-                // 已有 Chrome 调试实例
-                options.DebuggerAddress = "127.0.0.1:"+ port;
-                Console.WriteLine("检测到已启动的Chrome实例，将复用该浏览器。");
-                driver = new ChromeDriver(service, options);
-            }
-            else
-            {
-                options.DebuggerAddress = null;
-                // 未检测到调试实例，则启动新的 Chrome 实例
-                Console.WriteLine("未检测到Chrome调试实例，启动新的浏览器。");
-                // 如果需要让新启动的Chrome也启用调试模式，可以添加以下参数：
-                options.AddArgument("user-data-dir=" + dir);
-                options.AddArgument("--start-maximized");
-                options.AddArgument("--remote-debugging-port=" + port);
-
-                driver = new ChromeDriver(service, options);
-            }
-        }
-
-        /// <summary>
-        /// 检测指定主机和端口是否开放
-        /// </summary>
-        private bool IsPortOpen(string host, int port, int timeoutMs)
-        {
-            try
-            {
-                using (var client = new TcpClient())
-                {
-                    var result = client.BeginConnect(host, port, null, null);
-                    bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromMilliseconds(timeoutMs));
-                    if (!success)
-                        return false;
-                    client.EndConnect(result);
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public string Run(DomainModel domain)
-        {
-            SetDriver();
             // 检查是否已有标签页的 URL 包含目标地址
             bool found = false;
             foreach (string handle in driver.WindowHandles)
@@ -193,17 +226,19 @@ namespace AutoLogin
             {
 
                 //切换账号密码登录
-                 var switchButton = FindElement(By.ClassName("vui-login-modal-toggler"));
+                var switchButton = FindElement(By.ClassName("vui-login-modal-toggler"));
                 if (switchButton == null)
                 {
-                    return "已登录";
+                    Log("已登录");
+                    return ;
                 }
                 switchButton.Click();
 
                 // 如果用户仍然未输入有效数据，则提示后退出
                 if (string.IsNullOrWhiteSpace(domain.account) || string.IsNullOrWhiteSpace(domain.password))
                 {
-                    return "账号或密码未填写，无法继续登录！";
+                    Log("账号或密码未填写，无法继续登录！");
+                    return ;
                 }
 
                 //等待输入框加载
@@ -211,19 +246,20 @@ namespace AutoLogin
                 var passwordField = FindElement(By.XPath("//input[@placeholder='输入密码']"));
                 var captchaField = FindElement(By.XPath("//input[@placeholder='输入验证码']"),false);
 
+                Log("开始填充账号、密码");
                 //填充数据
                 usernameField.SendKeys(domain.account);
                 passwordField.SendKeys(domain.password);
 
                 if (captchaField != null)
                 {
+                    Log("正在获取验证码...");
                     //发送验证码
                     FindElement(By.ClassName("input-link")).Click();
                     //获取验证码，并输入
                     captchaField.SendKeys(GetDingTalkNotification(domain));
                 }
 
-                //点击登录按钮
                 var loginButton = FindElement(By.CssSelector("button.submit"));
                 loginButton.Click();
 
@@ -234,16 +270,11 @@ namespace AutoLogin
                 {
                     ignoreButton.Click();
                 }
-                return "登录成功";
+                Log("登录完成！");
             }
             catch (Exception ex)
             {
-                return "发生错误: " + ex.Message;
-            }
-            finally
-            {
-                //关闭浏览器（可选）
-                //driver.Quit();
+                Log("位置错误：" + ex.Message);
             }
         }
 
