@@ -1,10 +1,8 @@
 ﻿using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AJLibrary
@@ -56,6 +54,18 @@ namespace AJLibrary
                 frm = Activator.CreateInstance<T>();// 实例化窗体
             }
             return frm;
+        }
+
+        public static JObject getJsonObject(string input)
+        {
+            try
+            {
+                return JObject.Parse(input);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

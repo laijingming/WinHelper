@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Common.cs" />
     <Compile Include="ConfigCache.cs" />
+    <Compile Include="DevTreeListInit.cs" />
     <Compile Include="ExternalAppHelper.cs" />
     <Compile Include="FiddlerHelper.cs" />
     <Compile Include="FileTool.cs" />

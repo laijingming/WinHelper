@@ -70,6 +70,9 @@
     <Reference Include="DevExpress.XtraNavBar.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -105,6 +108,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -132,6 +136,10 @@
     <ProjectReference Include="..\Office\Office.csproj">
       <Project>{77c14604-3ebf-4f89-97df-7a99d07ccd77}</Project>
       <Name>Office</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Post\Post.csproj">
+      <Project>{24249b2c-6a21-41af-95a1-6783e15665c7}</Project>
+      <Name>Post</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScriptManagement\ScriptManagement.csproj">
       <Project>{39e73daf-70a9-41a6-a001-f3531d30e7d7}</Project>

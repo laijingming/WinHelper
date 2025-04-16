@@ -3,7 +3,7 @@ using DevExpress.XtraTreeList;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace ScriptManagement
+namespace AJLibrary
 {
     /// <summary>
     /// 初始化TreeList，父子节点选择关联

@@ -1,26 +1,38 @@
 ﻿using AJLibrary;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraPrinting.Native.WebClientUIControl;
+using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraTreeList;
 using DevExpress.XtraTreeList.Nodes;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 namespace Post
 {
     public partial class PostForm : DevExpress.XtraEditors.XtraForm
-    {
+    {   
+        PostConfigCache postCfgCache = PostConfigCache.getIns;
+        HttpClient client = new HttpClient();
+        DevTreeListInit devTree;
+
         public PostForm()
         {
             InitializeComponent();
             LoadUrl(txtPath);
-            loadLastRunInfo();
+            LoadLastRunInfo();
             LoadProtpcolFile(txtProtocolFilePath.Text);
             InitTreeList(treeList1);
+            MemoEditTreelistColumn(treeList2, 0);
         }
 
-        #region init
+        #region init、非事件
 
         /// <summary>
         /// 1.添加协议源文件
@@ -52,16 +64,16 @@ namespace Post
         /// <summary>
         /// 加载上次执行信息
         /// </summary>
-        private void loadLastRunInfo()
+        private void LoadLastRunInfo()
         {
-            ConfigCache cache1Model = ConfigCache.GetIns;
             //提前加载数据
-            string txtpath = cache1Model.Get(txtPath.Name);
+            string txtpath = postCfgCache.Get(txtPath.Name);
             if (txtpath.Length > 0)
             {
                 txtPath.Text = txtpath;
+
             }
-            string _txtProtocolFilePath = cache1Model.Get(txtProtocolFilePath.Name);
+            string _txtProtocolFilePath = postCfgCache.Get(txtProtocolFilePath.Name);
             if (_txtProtocolFilePath.Length > 0)
             {
                 txtProtocolFilePath.Text = _txtProtocolFilePath;
@@ -71,17 +83,27 @@ namespace Post
                 txtProtocolFilePath.Text = ConfigCache.GetIns.GetProtpcolFilePath();
             }
 
-            string _txtParam = cache1Model.Get(txtParam.Name);
+            string _txtParam = postCfgCache.Get(txtParam.Name);
             if (txtpath.Length > 0)
             {
-                txtParam.Text = _txtParam;
+                TxtParamAppend(_txtParam);
             }
 
-            string _txtCheckEdit1 = cache1Model.Get(checkEdit1.Name);
+            string _txtCheckEdit1 = postCfgCache.Get(checkEdit1.Name);
             if (txtpath.Length > 0)
             {
                 checkEdit1.Checked = bool.Parse(_txtCheckEdit1);
             }
+
+            string tmp = postCfgCache.Get(txtUids.Name);
+            if (tmp.Length > 0) txtUids.Text = tmp;
+
+            tmp = postCfgCache.Get(txtLoopCount.Name);
+            if (tmp.Length > 0) txtLoopCount.Text = tmp;
+
+            //tmp = postCfgCache.Get(txtTimeSpace.Name);
+            //if (tmp.Length > 0) txtTimeSpace.Text = tmp;
+
         }
 
         /// <summary>
@@ -112,6 +134,7 @@ namespace Post
 
         private void InitTreeList(TreeList tree)
         {
+            devTree = new DevTreeListInit(tree);
             tree.ParentFieldName = "pid";
             tree.KeyFieldName = "id";
             tree.DoubleClick += TreeList1_DoubleClick;
@@ -131,26 +154,228 @@ namespace Post
                                         string tmp = item.GetValue("Value").ToString();
                                         if (tmp != null)
                                         {
-                                            txtParam.AppendText("\r\n"+tmp);
+                                            TxtParamAppend(tmp);
                                         }
                                     }
                                 }
                             }
 
                         }
+
                     }
                 },
+                {
+                    "选择加入",(s,e)=>
+                    {
+                        foreach (TreeListNode item in devTree.treeListNodes)
+                        {
+                            if (item.Visible){
+                                string tmp = item.GetValue("Value").ToString();
+                                if (tmp != null)
+                                {
+                                    TxtParamAppend(tmp);
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "取消所有选中", (se, e2) =>
+                    {
+                        treeList1.UncheckAll();
+                        devTree.treeListNodes.Clear();
+                    }
+                },
+                {
+                    "清空协议", (se, e2) =>
+                    {
+                        txtParam.Text="";
+                    }
+                },
+
             });
             tree.ExpandAll();
         }
+
+        /// <summary>
+        /// TreeList 换行
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="index"></param>
+        public static void MemoEditTreelistColumn(TreeList t, int index)
+        {
+            t.RowHeight = 10;
+            //RepositoryItemRichTextEdit repositoryItemMemoEdit = new RepositoryItemRichTextEdit();
+            RepositoryItemMemoEdit repositoryItemMemoEdit = new RepositoryItemMemoEdit();
+            repositoryItemMemoEdit.AutoHeight = true;
+            repositoryItemMemoEdit.WordWrap = true;
+            t.Columns[index].ColumnEdit = repositoryItemMemoEdit;
+        }
+       
+        /// <summary>
+        /// todo:
+        ///     1.获取请求地址和参数
+        ///     2.设置并发任务
+        ///     3.处理返回值
+        /// </summary>
+        private async void Run() 
+        {
+            if (!int.TryParse(txtLoopCount.Text.Trim(), out int concurrentRequests) || concurrentRequests <= 0 ||
+         !int.TryParse(txtTimeSpace.Text.Trim(), out int timeSpace))
+            {
+                AppendToBoxResults("请输入有效的请求数量和时间间隔。");
+                return;
+            }
+
+            string url = txtPath.Text.Trim();
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                AppendToBoxResults("请输入有效的请求 URL。");
+                return;
+            }
+            //if (timeOut>0)//只能设置一次不然会报错
+            //{
+            //    client.Timeout = TimeSpan.FromSeconds(timeOut);
+            //}
+
+            string[] jsonData = Regex.Split(txtParam.Text.Trim(), "\r\n", RegexOptions.None);
+            string[] param = Regex.Split(txtUids.Text.Trim(), "\r\n", RegexOptions.None);
+
+            if (checkEdit1.Checked)
+            {
+                memoEdit1.Text = "";
+            }
+
+            try
+            {
+                await RunConcurrentRequests(url, jsonData.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray(),
+                                             param.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray(),
+                                             concurrentRequests, timeSpace);
+            }
+            catch (Exception ex)
+            {
+                AppendToBoxResults($"运行出错: {ex}");
+            }
+        }
+
+        private async Task RunConcurrentRequests(string url, string[] jsonData, string[] param, int concurrentRequests = 1, int timeSpace = 0)
+        {
+            List<Task> tasks = new List<Task>();
+            int requestCounter = 0;
+            jsonData = jsonData.Length > 0 ? jsonData : new[] { string.Empty };
+
+            for (int i = 0; i < concurrentRequests; i++)
+            {
+                foreach (string uidLine in param.Length > 0 ? param : new[] { string.Empty })
+                {
+                    string[] paramArr = string.IsNullOrWhiteSpace(uidLine) ? Array.Empty<string>() : uidLine.Split(',');
+                    string execUrl = paramArr.Length > 0 ? string.Format(url, paramArr) : url;
+                    
+                    foreach (string json in jsonData)
+                    {
+                        tasks.Add(MakeApiRequest(++requestCounter, execUrl, json));
+                    }
+                }
+
+                if (timeSpace > 0)
+                {
+                    await Task.Delay(timeSpace);
+                }
+            }
+
+            await Task.WhenAll(tasks);
+        }
+
+        private async Task MakeApiRequest(int requestNumber, string url, string jsonData)
+        {
+            try
+            {
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                // 设置请求头
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = await client.PostAsync(url, content);
+                string responseBody = await response.Content.ReadAsStringAsync();
+                //Json格式化
+                object jsonObject = Common.getJsonObject(responseBody);
+                if (jsonObject != null)
+                {
+                    responseBody = jsonObject.ToString();
+                }
+
+                string msg = $"Request {requestNumber} - Url: {url} - Param: {jsonData} - Status: {response.StatusCode}";
+                msg = msg.Replace("\r\n", Environment.NewLine);
+                msg = msg.Replace("\n", Environment.NewLine);
+                AppendToBoxResults($"{msg}\r\nResponse:\r\n{responseBody}\r\n");
+                AddNode(msg, responseBody);
+            }
+            catch (Exception ex)
+            {
+                AppendToBoxResults($"Request {requestNumber} - Error: {ex}");
+            }
+        }
+
+        private void AddNode(string parrent, string son)
+        {
+            TreeListNode node = treeList2.Nodes.Add(new object[] { parrent });
+            node.Nodes.Add(new object[] { son });
+        }
+
+
+        private void AppendToBoxResults(string message)
+        {
+            message += "\r\n\r\n==========end==========\r\n\r\n";
+            // 在文本框中显示结果
+            if (memoEdit1.InvokeRequired)
+            {
+                memoEdit1.Invoke(new Action(() => AppendToBoxResults(message)));
+            }
+            else
+            {
+                
+                memoEdit1.AppendText($"[{System.DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
+            }
+        }
+
+        private void TxtParamAppend(string message) 
+        {
+            txtParam.AppendText(message+Environment.NewLine);
+        }
+        #endregion
+
+
         private void TreeList1_DoubleClick(object sender, EventArgs e)
         {
             string tmp = treeList1.FocusedNode.GetValue("Value").ToString();
             if (tmp != null)
             {
-                txtParam.AppendText("\r\n" + tmp);
+                TxtParamAppend(tmp);
             }
         }
-        #endregion
+        private void btnExec_Click(object sender, EventArgs e)
+        {
+            treeList2.Nodes.Clear();
+            Run();
+            postCfgCache.Set(txtTimeSpace.Name, txtTimeSpace.Text.Trim());
+            postCfgCache.Set(txtLoopCount.Name, txtLoopCount.Text.Trim());
+            postCfgCache.Set(txtPath.Name, txtPath.Text.Trim());
+            postCfgCache.Set(txtUids.Name, txtUids.Text.Trim());
+            postCfgCache.Set(txtProtocolFilePath.Name, txtProtocolFilePath.Text.Trim());
+            postCfgCache.Set(txtParam.Name, txtParam.Text.Trim());
+            postCfgCache.Set(checkEdit1.Name, checkEdit1.Checked.ToString());
+            postCfgCache.Save();
+        }
+
+        private void btnSwitch_Click(object sender, EventArgs e)
+        {
+            int index = navigationFrame1.SelectedPageIndex - 1;
+            index = index >= 0 ? index : 1;
+            navigationFrame1.SelectedPageIndex = index;
+        }
+
+        private void btnProtpcolFileOpen_Click(object sender, EventArgs e)
+        {
+            LoadProtpcolFile(txtProtocolFilePath.Text);
+        }
     }
 }

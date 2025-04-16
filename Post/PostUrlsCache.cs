@@ -9,7 +9,7 @@ namespace Post
 
         public const string FILENAME = "./file/posturls.json";//文件名
 
-        public static PostUrlsCache getIns => Master.getModel<PostUrlsCache>();
+        public static PostUrlsCache getIns => new PostUrlsCache();
 
         public PostUrlsCache() : base(FILENAME)
         {

@@ -6,9 +6,13 @@ namespace AJLibrary
 {
     public class JsonHelper
     {
-        public static object Deserialize(string json) { return JsonConvert.DeserializeObject(json); }
+        public static object Deserialize(string json) { 
+            return JsonConvert.DeserializeObject(json);
+        }
 
-        public static string Serialize(object obj) { return JsonConvert.SerializeObject(obj); }
+        public static string Serialize(object obj) { 
+            return JsonConvert.SerializeObject(obj);
+        }
 
         /// <summary>
         /// 解析json文件转化为object

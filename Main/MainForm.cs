@@ -6,6 +6,11 @@ using DevExpress.XtraBars.Docking;
 using DevExpress.XtraBars.Docking2010.Views;
 using AutoLogin;
 using DevExpress.XtraSplashScreen;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Collections.Generic;
+using AJLibrary;
+using System.IO;
 
 namespace Main
 {
@@ -20,20 +25,55 @@ namespace Main
             tabbedView1.DocumentClosing += TabbedView1_DocumentClosing;
             this.FormClosing += MainForm_FormClosing;
             this.KeyPreview = true; // 确保窗体能够捕获键盘事件
-            InitTiles();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             CloseAllDocument();
+            SaveTileControlLayout();
         }
 
         private void XtraForm2_Load(object sender, EventArgs e)
         {
+            InitTiles();
+            RestoreTileControlLayout();
 
         }
 
-        #region event 
+        private void SaveTileControlLayout()
+        {
+            try
+            {
+
+                // 保存TileControl的布局到XML文件
+                tileControl1.SaveLayoutToXml("./file/TileControlLayout.xml");
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("保存布局失败: " + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RestoreTileControlLayout()
+        {
+            try
+            {
+                string layoutFilePath = "./file/TileControlLayout.xml";
+
+                // 检查布局文件是否存在
+                if (File.Exists(layoutFilePath))
+                {   
+                    // 从XML文件恢复TileControl的布局
+                    tileControl1.RestoreLayoutFromXml(layoutFilePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("恢复布局失败: " + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
         /// <summary>
         /// 关闭panl释放窗体
         /// </summary>
@@ -209,22 +249,24 @@ namespace Main
             }
         }
 
-        #endregion
-
 
 
         #region createform
         private void InitTiles()
         {
+            tileControl1.Groups.Clear();
             tileControl1.LookAndFeel.UseDefaultLookAndFeel = true;
-            TileGroup tileGroup = new TileGroup();
+            int i = 0;
             foreach (TileTpl tileTpl in dataSocure.data)
             {
+                TileGroup tileGroup = new TileGroup();
                 TileItem tile = CreateTileItemElement(tileTpl);
+                tile.Id = i++; // ❗重要：恢复时靠这个匹配 tile
                 tileGroup.Items.Add(tile);
                 tileControl1.Groups.Add(tileGroup);
                 tile.ItemClick += (sender, e) =>
-                {
+                {   
+
                     SplashScreenManager.ShowDefaultWaitForm("正在打开", "请等待......");
                     ShowFormByName(tileTpl);
                     SplashScreenManager.CloseForm();
@@ -241,42 +283,6 @@ namespace Main
             tile.Elements.Add(tileItemElement1);
             tile.ItemSize = TileItemSize.Default;
             return tile;
-
-            //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            //TileItemElement tileItemElement2 = new TileItemElement();
-            //tileItemElement1.Appearance.Hovered.Font = new System.Drawing.Font("Segoe UI Light", 17F);
-            //tileItemElement1.Appearance.Hovered.Options.UseFont = true;
-            //tileItemElement1.Appearance.Hovered.Options.UseTextOptions = true;
-            //tileItemElement1.Appearance.Hovered.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
-            //tileItemElement1.Appearance.Hovered.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            //tileItemElement1.Appearance.Normal.Font = new System.Drawing.Font("Segoe UI Light", 17F);
-            //tileItemElement1.Appearance.Normal.Options.UseFont = true;
-            //tileItemElement1.Appearance.Normal.Options.UseTextOptions = true;
-            //tileItemElement1.Appearance.Normal.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
-            //tileItemElement1.Appearance.Normal.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            //tileItemElement1.Appearance.Selected.Font = new System.Drawing.Font("Segoe UI Light", 17F);
-            //tileItemElement1.Appearance.Selected.Options.UseFont = true;
-            //tileItemElement1.Appearance.Selected.Options.UseTextOptions = true;
-            //tileItemElement1.Appearance.Selected.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
-            //tileItemElement1.Appearance.Selected.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            //tileItemElement1.MaxWidth = 160;
-
-            //tileItemElement1.TextLocation = new System.Drawing.Point(75, 0);
-            //if (tileTpl.iconPath != null)
-            //{
-            //    tileItemElement2.ImageOptions.Image = ExtractAppIcon(tileTpl.iconPath).ToBitmap();
-            //}
-            //else
-            //{
-            //    tileItemElement2.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("resource.Image")));
-            //}
-            //tileItemElement2.ImageOptions.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.Manual;
-            //tileItemElement2.ImageOptions.ImageLocation = new System.Drawing.Point(4, 8);
-            //tileItemElement2.ImageOptions.ImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.ZoomOutside;
-            //tileItemElement2.ImageOptions.ImageSize = new System.Drawing.Size(64, 64);
-            //tile.Elements.Add(tileItemElement2);
-            //tile.Appearance.BackColor = Color.FromArgb(140, 140, 140);
-            //tile.Appearance.BorderColor = Color.FromArgb(140, 140, 140);
         }
 
         public void ShowFormByName(TileTpl tileTpl)
