@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Office", "Office\Office.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post", "Post\Post.csproj", "{24249B2C-6A21-41AF-95A1-6783E15665C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterFileAssociations", "RegisterFileAssociations\RegisterFileAssociations.csproj", "{54431410-52C8-4E28-B3A5-51494180F02C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,14 @@ Global
 		{24249B2C-6A21-41AF-95A1-6783E15665C7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24249B2C-6A21-41AF-95A1-6783E15665C7}.Release|x86.ActiveCfg = Release|Any CPU
 		{24249B2C-6A21-41AF-95A1-6783E15665C7}.Release|x86.Build.0 = Release|Any CPU
+		{54431410-52C8-4E28-B3A5-51494180F02C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54431410-52C8-4E28-B3A5-51494180F02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54431410-52C8-4E28-B3A5-51494180F02C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{54431410-52C8-4E28-B3A5-51494180F02C}.Debug|x86.Build.0 = Debug|Any CPU
+		{54431410-52C8-4E28-B3A5-51494180F02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54431410-52C8-4E28-B3A5-51494180F02C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54431410-52C8-4E28-B3A5-51494180F02C}.Release|x86.ActiveCfg = Release|Any CPU
+		{54431410-52C8-4E28-B3A5-51494180F02C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using DevExpress.XtraEditors;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Diagnostics;
@@ -38,7 +39,7 @@ namespace AutoLogin
                     return _driver;
                 }
                 catch
-                {
+                {   
                     Log("已失效的 ChromeDriver 实例，准备重启...");
                     DisposeDriver();
                 }
@@ -75,6 +76,7 @@ namespace AutoLogin
             Log($"启动新的 Chrome，端口: {_port}");
 
             if (!Directory.Exists(_userDataDir))
+
             {
                 Directory.CreateDirectory(_userDataDir);
             }
@@ -87,6 +89,7 @@ namespace AutoLogin
             _driver = new ChromeDriver(_service, options);
         }
 
+
         private void DisposeDriver()
         {
             try
@@ -94,7 +97,7 @@ namespace AutoLogin
                 _driver?.Quit();
                 _driver?.Dispose();
             }
-            catch { }
+            catch(Exception e) { XtraMessageBox.Show(e.ToString()); }
             _driver = null;
         }
 

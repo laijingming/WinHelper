@@ -19,15 +19,26 @@ namespace ImageToIco
         public Form1()
         {
             InitializeComponent();
-            //ExternalConfig();
             ReplaceLoadMenuItem();
-        } 
+        }
+
+
+        private void ExternalConfig()
+        {
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+        }
+
+        public void LoadImage(Image img) 
+        {
+            pictureEdit1.Image = img;
+        }
 
         /// <summary>
         /// 加载转换文件
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="e"></param> 
         private void simpleButton1_Click_1(object sender, EventArgs e)
         {
             string inputImagePath = FileTool.OpenFile(FileTool.ImageFileFilter);
@@ -37,6 +48,7 @@ namespace ImageToIco
                 pictureEdit1.LoadAsync(inputImagePath);
             }
         }
+
 
         /// <summary>
         /// 开始转换
@@ -158,11 +170,6 @@ namespace ImageToIco
 
         }
 
-        private void ExternalConfig() 
-        {
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
-        }
     }
 
 }
