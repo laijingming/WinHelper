@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post", "Post\Post.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterFileAssociations", "RegisterFileAssociations\RegisterFileAssociations.csproj", "{54431410-52C8-4E28-B3A5-51494180F02C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeApp", "TimeApp\TimeApp.csproj", "{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,14 @@ Global
 		{54431410-52C8-4E28-B3A5-51494180F02C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{54431410-52C8-4E28-B3A5-51494180F02C}.Release|x86.ActiveCfg = Release|Any CPU
 		{54431410-52C8-4E28-B3A5-51494180F02C}.Release|x86.Build.0 = Release|Any CPU
+		{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}.Debug|x86.Build.0 = Debug|Any CPU
+		{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}.Release|x86.ActiveCfg = Release|Any CPU
+		{7B22AD6E-9258-4E67-AC4C-B3A8BC3B5C84}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

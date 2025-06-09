@@ -13,6 +13,11 @@ namespace AJLibrary
             return DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         }
 
+        public static long NowMs()
+        {
+            return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        }
+
         public static DateTime NowDate()
         {
             return UnixTimeStampToDateTime(Now());

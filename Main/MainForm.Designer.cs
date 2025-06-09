@@ -327,6 +327,13 @@ namespace Main
                         description = "图片转ICO",
                         newForm = () =>setFormCfg( new ImageToIco.Form1()),
                         iconPath = "图片转ICO.exe",
+                    },
+                    new TileTpl()
+                    {
+                        name = "时间戳转换",
+                        description = "时间戳转换",
+                        newForm = () =>setFormCfg( new TimeApp.TimestampForm()),
+                        iconPath = "时间戳转换.exe",
                     }
                 };
             }

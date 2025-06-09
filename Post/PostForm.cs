@@ -30,6 +30,7 @@ namespace Post
             LoadProtpcolFile(txtProtocolFilePath.Text);
             InitTreeList(treeList1);
             MemoEditTreelistColumn(treeList2, 0);
+            InittextEditSearch();
         }
 
         #region init、非事件
@@ -89,20 +90,18 @@ namespace Post
                 TxtParamAppend(_txtParam);
             }
 
-            string _txtCheckEdit1 = postCfgCache.Get(checkEdit1.Name);
-            if (txtpath.Length > 0)
+            string _txtCheckButoonClear = postCfgCache.Get(checkButtonClear.Name);
+            if (_txtCheckButoonClear.Length > 0)
             {
-                checkEdit1.Checked = bool.Parse(_txtCheckEdit1);
+                checkButtonClear.Checked = bool.Parse(_txtCheckButoonClear);
             }
+
 
             string tmp = postCfgCache.Get(txtUids.Name);
             if (tmp.Length > 0) txtUids.Text = tmp;
 
             tmp = postCfgCache.Get(txtLoopCount.Name);
             if (tmp.Length > 0) txtLoopCount.Text = tmp;
-
-            //tmp = postCfgCache.Get(txtTimeSpace.Name);
-            //if (tmp.Length > 0) txtTimeSpace.Text = tmp;
 
         }
 
@@ -241,7 +240,8 @@ namespace Post
             string[] jsonData = Regex.Split(txtParam.Text.Trim(), "\r\n", RegexOptions.None);
             string[] param = Regex.Split(txtUids.Text.Trim(), "\r\n", RegexOptions.None);
 
-            if (checkEdit1.Checked)
+
+            if (checkButtonClear.Checked)
             {
                 memoEdit1.Text = "";
             }
@@ -304,8 +304,8 @@ namespace Post
                 }
 
                 string msg = $"Request {requestNumber} - Url: {url} - Param: {jsonData} - Status: {response.StatusCode}";
-                msg = msg.Replace("\r\n", Environment.NewLine);
-                msg = msg.Replace("\n", Environment.NewLine);
+                //msg = msg.Replace("\r\n", Environment.NewLine);
+                responseBody = responseBody.Replace("\n", Environment.NewLine);
                 AppendToBoxResults($"{msg}\r\nResponse:\r\n{responseBody}\r\n");
                 AddNode(msg, responseBody);
             }
@@ -332,7 +332,6 @@ namespace Post
             }
             else
             {
-                
                 memoEdit1.AppendText($"[{System.DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
             }
         }
@@ -362,7 +361,7 @@ namespace Post
             postCfgCache.Set(txtUids.Name, txtUids.Text.Trim());
             postCfgCache.Set(txtProtocolFilePath.Name, txtProtocolFilePath.Text.Trim());
             postCfgCache.Set(txtParam.Name, txtParam.Text.Trim());
-            postCfgCache.Set(checkEdit1.Name, checkEdit1.Checked.ToString());
+            postCfgCache.Set(checkButtonClear.Name, checkButtonClear.Checked.ToString());
             postCfgCache.Save();
         }
 
@@ -376,6 +375,55 @@ namespace Post
         private void btnProtpcolFileOpen_Click(object sender, EventArgs e)
         {
             LoadProtpcolFile(txtProtocolFilePath.Text);
+        }
+
+        #region 搜索内容
+        private void InittextEditSearch() 
+        {
+            textEditSearch.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    FindLineByText();
+                }
+            };
+            simpleButtonFindDown.Click += (s, e) => 
+            {
+                FindLineByText();
+            };
+            
+        }
+        private int _lastFoundIndex = -1;
+        private void FindLineByText() 
+        {
+            string searchText = textEditSearch.Text;
+            if (string.IsNullOrEmpty(searchText))
+            {
+                XtraMessageBox.Show("请输入搜索内容");
+                return;
+            }
+            // 从上次找到的位置后开始搜索
+            int startIndex = _lastFoundIndex + 1;
+            int foundIndex = memoEdit1.Text.IndexOf(searchText, startIndex, StringComparison.OrdinalIgnoreCase);
+
+            if (foundIndex >= 0)
+            {
+                memoEdit1.Select(foundIndex,searchText.Length);
+                memoEdit1.ScrollToCaret();
+                memoEdit1.Focus();
+
+                // 保存最后找到的位置
+                _lastFoundIndex = foundIndex;
+            }
+            else {
+                _lastFoundIndex = -1;
+            }
+        }
+        #endregion
+
+        private void PostForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

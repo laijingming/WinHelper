@@ -30,6 +30,15 @@ namespace AJLibrary
         /// 一键登录端口
         /// </summary>
         /// <returns></returns>
+        public string GetBinaryLocation()
+        {
+            return Get("binaryLocation", "");
+        }
+
+        /// <summary>
+        /// 一键登录端口
+        /// </summary>
+        /// <returns></returns>
         public string GetAutoLoginDir()
         {   
             return Get("autoLoginDir", "D:\\SeleniumChromeProfile");

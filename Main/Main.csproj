@@ -146,6 +146,10 @@
       <Name>ScriptManagement</Name>
       <Aliases>global</Aliases>
     </ProjectReference>
+    <ProjectReference Include="..\TimeApp\TimeApp.csproj">
+      <Project>{7b22ad6e-9258-4e67-ac4c-b3a8bc3b5c84}</Project>
+      <Name>TimeApp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="1740970897.ico" />

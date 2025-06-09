@@ -94,7 +94,8 @@ namespace AutoLogin
 
         #region chromedriver
         private RetryChromeDriverWrapper _driverWrapper =
-    new RetryChromeDriverWrapper(ConfigCache.GetIns.GetAutoLoginDir(), Convert.ToInt32(ConfigCache.GetIns.GetAutoLoginPort()));
+    //new RetryChromeDriverWrapper(ConfigCache.GetIns.GetAutoLoginDir(), Convert.ToInt32(ConfigCache.GetIns.GetAutoLoginPort()));
+    new RetryChromeDriverWrapper();
         private IWebDriver driver => (ChromeDriver)_driverWrapper.GetDriver();
         public void CloseDriver() 
         {
@@ -105,88 +106,6 @@ namespace AutoLogin
             //    driver = null;
             //}
         }
-        //private void SetDriver()
-        //{
-        //    if (driver != null)
-        //    {
-        //        try
-        //        {
-        //            var hand = driver.Url;
-        //            return;
-        //        }
-        //        catch (Exception)
-        //        {
-        //            try
-        //            {
-        //                driver.Quit();
-        //                driver.Dispose();
-        //            }
-        //            catch { }
-        //            driver = null;
-        //        }
-        //    };
-
-        //    ChromeOptions options = new ChromeOptions();
-        //    ChromeDriverService service = ChromeDriverService.CreateDefaultService();
-        //    service.HideCommandPromptWindow = true;
-
-        //    string port = ConfigCache.GetIns.GetAutoLoginPort();
-        //    string dir = ConfigCache.GetIns.GetAutoLoginDir();
-        //    if (!Directory.Exists(dir))
-        //    {
-        //        Directory.CreateDirectory(dir);
-        //    }
-
-        //    bool reused = false;
-
-        //    // 判断本地9222端口是否开放
-        //    if (IsPortOpen("127.0.0.1", Convert.ToInt16(port), 1000))
-        //    {
-        //        try
-        //        {
-        //            options.DebuggerAddress = "127.0.0.1:" + port;
-        //            Console.WriteLine("检测到Chrome调试实例，尝试复用中...");
-        //            driver = new ChromeDriver(service, options);
-        //            reused = true;
-        //        }
-        //        catch (WebDriverException)
-        //        {
-        //            XtraMessageBox.Show("连接已断开，重启浏览器...");
-        //        }
-        //    }
-
-        //    if (!reused)
-        //    {
-        //        options.DebuggerAddress = null;
-        //        options.AddArgument("user-data-dir=" + dir);
-        //        options.AddArgument("--start-maximized");
-        //        options.AddArgument("--remote-debugging-port=" + port);
-        //        driver = new ChromeDriver(service, options);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 检测指定主机和端口是否开放
-        ///// </summary>
-        //private bool IsPortOpen(string host, int port, int timeoutMs)
-        //{
-        //    try
-        //    {
-        //        using (var client = new TcpClient())
-        //        {
-        //            var result = client.BeginConnect(host, port, null, null);
-        //            bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromMilliseconds(timeoutMs));
-        //            if (!success)
-        //                return false;
-        //            client.EndConnect(result);
-        //        }
-        //        return true;
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
         #endregion
 
 
@@ -220,7 +139,6 @@ namespace AutoLogin
                 // 如果找到了，则刷新或继续操作
                 driver.Navigate().Refresh();
             }
-
 
             try
             {

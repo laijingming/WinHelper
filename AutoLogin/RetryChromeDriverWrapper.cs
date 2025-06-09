@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraEditors;
+﻿using AJLibrary;
+using DevExpress.XtraEditors;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
@@ -17,10 +18,10 @@ namespace AutoLogin
         private readonly string _logFilePath;
         public Action<string> OnLog = Console.WriteLine; // 默认输出到控制台
 
-        public RetryChromeDriverWrapper(string userDataDir, int port) 
+        public RetryChromeDriverWrapper() 
         {
-            _userDataDir = userDataDir;
-            _port = port;
+            _userDataDir = ConfigCache.GetIns.GetAutoLoginDir() ;
+            _port = Convert.ToInt32(ConfigCache.GetIns.GetAutoLoginPort());
             _logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "file/autologin.log");
 
             _service = ChromeDriverService.CreateDefaultService();
@@ -76,12 +77,14 @@ namespace AutoLogin
             Log($"启动新的 Chrome，端口: {_port}");
 
             if (!Directory.Exists(_userDataDir))
-
             {
                 Directory.CreateDirectory(_userDataDir);
             }
-
             var options = new ChromeOptions();
+            if (!string.IsNullOrEmpty(ConfigCache.GetIns.GetBinaryLocation()))
+            {
+                options.BinaryLocation = ConfigCache.GetIns.GetBinaryLocation();
+            }
             options.AddArgument($"user-data-dir={_userDataDir}");
             options.AddArgument("--start-maximized");
             options.AddArgument($"--remote-debugging-port={_port}");
